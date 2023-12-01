@@ -1,8 +1,7 @@
 {
-  "appId": "be.manojmagar.hybrideapp",
-  "appName": "Hybride App",
+  "appId": "be.manojmagar.ModernCare",
+  "appName": "ModernCare",
   "webDir": "dist",
-  "WindowsAndroidStudioPath": "D:\\odisee\\apps\bin\\studio64.exe",
   "server": {
     "androidScheme": "https"
   }
