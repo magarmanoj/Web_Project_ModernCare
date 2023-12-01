@@ -1,0 +1,9 @@
+{
+  "appId": "be.manojmagar.hybrideapp",
+  "appName": "Hybride App",
+  "webDir": "dist",
+  "WindowsAndroidStudioPath": "D:\\odisee\\apps\bin\\studio64.exe",
+  "server": {
+    "androidScheme": "https"
+  }
+}
