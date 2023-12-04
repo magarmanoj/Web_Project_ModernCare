@@ -9,11 +9,11 @@ define('INDEX', true);
 require 'inc/dbcon.php';
 require 'inc/base.php';
 
-if (!$stmt = $conn->prepare("delete from projects where project_id = ?")) {
+if (!$stmt = $conn->prepare("delete from Kamers where KamerID = ?")) {
     die('{"error":"Prepared Statement failed on prepare","errNo":"' . json_encode($conn->errno) . '","mysqlError":"' . json_encode($conn->error) . '","status":"fail"}');
 }
 
-if (!$stmt->bind_param("i", htmlentities($postvars['project_id']))) {
+if (!$stmt->bind_param("i", htmlentities($postvars['KamerID']))) {
     die('{"error":"Prepared Statement bind failed on bind","errNo":"' . json_encode($stmt->errno) . '","mysqlError":"' . json_encode($stmt->error) . '","status":"fail"}');
 }
 

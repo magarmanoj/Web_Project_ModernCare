@@ -12,8 +12,7 @@ require 'inc/base.php';
 // PRODUCTENget
 // --- "Get" de lijst met medewerkers per project
 
-$sql="Select * from projects;
-";
+$sql="Select * from Patiënten;";
 
 // geen prepared statement nodig, aangezien we geen parameters
 // van de gebruiker verwerken.

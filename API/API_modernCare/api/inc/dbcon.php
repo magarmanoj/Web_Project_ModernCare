@@ -10,10 +10,10 @@ if (!defined('INDEX')) {
 </body></html>');
 }
 // Create connection strings
-$servername = "ID416105_RESTFulApi.db.webhosting.be";
-$username = "ID416105_RESTFulApi"; // username (zie Hosting)
-$password = "testpass1"; // paswoord DATABANK (zie hosting)
-$dbname = "ID416105_RESTFulApi"; // naam databank (zie hosting ; zelf gekozen)
+$servername = "ID416112_modernCare.db.webhosting.be";
+$username = "ID416112_modernCare"; // username (zie Hosting)
+$password = "123456@school"; // paswoord DATABANK (zie hosting)
+$dbname = "ID416112_modernCare"; // naam databank (zie hosting ; zelf gekozen)
 
 $conn = mysqli_connect($servername, $username, $password, $dbname) or die(mysqli_connect_error());
 mysqli_set_charset($conn, 'utf8mb4'); // mysqli extension

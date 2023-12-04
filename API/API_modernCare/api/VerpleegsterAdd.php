@@ -10,11 +10,11 @@ require 'inc/dbcon.php';
 require 'inc/base.php';
 
 // add medewerkers
-if(!$stmt = $conn->prepare("insert into medewerker (voornaam, familienaam, specialisatie) values (?,?,?)")){
+if(!$stmt = $conn->prepare("insert into Verpleegsters (Voornaam, Achternaam, Telefoonnummer, Email, Specialiteit) values (?,?,?,?,?)")){
     die('{"error":"Prepared Statement failed on prepare","errNo":"' . json_encode($conn -> errno) .'","mysqlError":"' . json_encode($conn -> error) .'","status":"fail"}');
 }
 
-if(!$stmt -> bind_param("sss", htmlentities($postvars['voornaam']), $postvars['familienaam'], $postvars['specialisatie'])){
+if(!$stmt -> bind_param("sssss", htmlentities($postvars['Voornaam']), $postvars['Achternaam'], $postvars['Telefoonnummer'], $postvars['Email'], $postvars['specialisatie'])){
     die('{"error":"Prepared Statement bind failed on bind","errNo":"' . json_encode($conn -> errno) .'","mysqlError":"' . json_encode($conn -> error) .'","status":"fail"}');
 }
 $stmt -> execute();
