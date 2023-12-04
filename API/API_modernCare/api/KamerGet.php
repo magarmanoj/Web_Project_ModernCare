@@ -12,11 +12,8 @@ require 'inc/base.php';
 // PRODUCTENget
 // --- "Get" de lijst met medewerkers per project
 
-$sql="select p.naam, p.code, p.beschrijving,
-m.voornaam, m.specialisatie 
-FROM projects p
-INNER JOIN project_medewerker pm ON p.project_id = pm.project_id
-INNER JOIN medewerker m on m.medewerker_id = pm.medewerker_id";
+$sql="Select * from projects;
+";
 
 // geen prepared statement nodig, aangezien we geen parameters
 // van de gebruiker verwerken.
