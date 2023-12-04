@@ -10,7 +10,7 @@ require 'inc/dbcon.php';
 require 'inc/base.php';
 
 // Medewerker toewijzen naar een project
-if(!$stmtproject = $conn->prepare("insert into kamer_bewoner (KamerID, patiëntID) values (?,?)")){
+if(!$stmtproject = $conn->prepare("insert into Kamer_Patient (KamerID, patiëntID) values (?,?)")){
     die('{"error":"Prepared Statement failed on prepare","errNo":"' . json_encode($conn -> errno) .'","mysqlError":"' . json_encode($conn -> error) .'","status":"fail"}');
 }
 
