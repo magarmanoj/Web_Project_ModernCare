@@ -21,6 +21,10 @@ const routes = [
       {
         path: 'tabLogin',
         component: () => import('@/views/LogIn.vue')
+      },
+      {
+        path: 'tabLijsten',
+        component: () => import('@/views/LijstenView.vue')
       }
     ]
   }

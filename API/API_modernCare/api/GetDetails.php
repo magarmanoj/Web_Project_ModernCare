@@ -12,7 +12,8 @@ require 'inc/base.php';
 // PRODUCTENget
 // --- "Get" de lijst met medewerkers per project
 
-$sql="Select * from kamers";
+$sql="select k.KamerID, k.BlokNaam, k.KamerNummer, k.Verdieping, o.Priroiteit, vn.DatumTijdNotitie
+from kamers k join ongevalType o ON k.KamerID = o.ID left join verzoekNotities vn ON k.KamerID = vn.VerzoekID";
 
 // geen prepared statement nodig, aangezien we geen parameters
 // van de gebruiker verwerken.
