@@ -10,11 +10,11 @@ require 'inc/dbcon.php';
 require 'inc/base.php';
 
 // add projecten
-if(!$stmtproject = $conn->prepare("insert into kamers (BlokNaam, Capaciteit) values (?,?,?)")){
+if(!$stmtproject = $conn->prepare("insert into kamers (BlokNaam, KamerNummer, Verdieping) values (?,?,?,?)")){
     die('{"error":"Prepared Statement failed on prepare","errNo":"' . json_encode($conn -> errno) .'","mysqlError":"' . json_encode($conn -> error) .'","status":"fail"}');
 }
 
-if(!$stmtproject -> bind_param("sss", htmlentities($postvars['BlokNaam']), $postvars['Capaciteit'])){
+if(!$stmtproject -> bind_param("sii", htmlentities($postvars['BlokNaam']), $postvars['KamerNummer'], $postvars['Verdieping'])){
     die('{"error":"Prepared Statement bind failed on bind","errNo":"' . json_encode($conn -> errno) .'","mysqlError":"' . json_encode($conn -> error) .'","status":"fail"}');
 }
 $stmtproject -> execute();
