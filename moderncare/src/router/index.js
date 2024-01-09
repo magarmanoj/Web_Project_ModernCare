@@ -16,7 +16,11 @@ const routes = [
       },
       {
         path: 'tabHome',
-        component: () => import('@/views/TabHome.vue')
+        component: () => import('@/views/PatientWindow.vue')
+      },
+      {
+        path: 'tabLogin',
+        component: () => import('@/views/LogIn.vue')
       }
     ]
   }

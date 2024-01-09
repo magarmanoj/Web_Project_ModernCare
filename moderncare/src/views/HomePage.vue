@@ -8,7 +8,7 @@
           <ion-label>Patient</ion-label>
         </ion-tab-button>
 
-        <ion-tab-button tab="overzicht" href="/tabs/tabOverzicht">
+        <ion-tab-button tab="login" href="/tabs/tabLogin">
           <ion-icon aria-hidden="true" :icon="desktop" />
           <ion-label>LogIn</ion-label>
         </ion-tab-button>
