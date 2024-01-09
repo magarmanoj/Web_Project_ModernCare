@@ -10,7 +10,7 @@ require 'inc/dbcon.php';
 require 'inc/base.php';
 
 // add projecten
-if (!$stmtproject = $conn->prepare("insert into kamers (VerzoekID, VerpleegsterID, Omschrijvigen, DatumTijdNotitie) values (?,?,?,?)")) {
+if (!$stmtproject = $conn->prepare("insert into VerzoekNotities (VerzoekID, VerpleegsterID, Omschrijvigen, DatumTijdNotitie) values (?,?,?,?)")) {
     die('{"error":"Prepared Statement failed on prepare","errNo":"' . json_encode($conn->errno) . '","mysqlError":"' . json_encode($conn->error) . '","status":"fail"}');
 }
 

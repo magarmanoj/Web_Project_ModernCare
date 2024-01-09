@@ -43,7 +43,7 @@ library.add(fas);
 // Define the method to update the PHP server
 const updateOngevalType = async (prioriteit) => {
   try {
-    const response = await axios.post('http://yourserver.com/OngevalTypeUpdate.php', {
+    const response = await axios.post('https://gauravghimire.be/API/API_moderneCare/api/OngevalType.php', {
       prioriteit: prioriteit
     });
     // Handle response here
