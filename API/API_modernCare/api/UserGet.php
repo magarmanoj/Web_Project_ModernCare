@@ -9,12 +9,11 @@ require 'inc/dbcon.php';
 require 'inc/base.php';
 
 // Retrieve POST data
-$username = $_POST['username'] ?? null;
-$wachtwoord = $_POST['wachtwoord'] ?? null;
-$username = $_POST['username'] ?? null;
-echo json_encode(['data' => $username, 'message' => 'Received username', 'status' => 'ok']);
+$username = trim($_POST['username'] ?? null);
+$wachtwoord = trim($_POST['wachtwoord'] ?? null);
 
-
+// Debugging output
+echo json_encode(['data' => $username, 'entered_password' => $wachtwoord, 'stored_password' => $user['wachtwoord'], 'message' => 'Received username', 'status' => 'ok']);
 
 $stmt = $conn->prepare("SELECT * FROM Users WHERE username = ?");
 if (!$stmt) {
@@ -38,9 +37,11 @@ if ($result->num_rows == 0) {
     echo json_encode(['error' => 'No user found with the provided username.', 'status' => 'fail']);
 } else {
     $user = $result->fetch_assoc();
-    // If you are hashing passwords, use password_verify
-    // if (password_verify($wachtwoord, $user['wachtwoord'])) {
-    if ($wachtwoord === $user['wachtwoord']) { // Use this line only if you are not hashing passwords
+
+    // Debugging output
+    echo json_encode(['data' => $username, 'entered_password' => $wachtwoord, 'stored_password' => $user['wachtwoord'], 'message' => 'Received username', 'status' => 'ok']);
+
+    if ($wachtwoord === $user['wachtwoord']) {
         echo json_encode(['data' => 'ok', 'message' => 'Login successful', 'status' => 'ok']);
     } else {
         echo json_encode(['error' => 'Invalid password.', 'status' => 'fail']);

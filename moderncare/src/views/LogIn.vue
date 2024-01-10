@@ -14,7 +14,7 @@
                     <ion-input type="password" v-model="wachtwoord" placeholder="Password"
                         aria-label="Password"></ion-input>
                 </ion-item>
-                <ion-button @submit="handleLogin" expand="block" class="ion-margin-top">Login</ion-button>
+                <ion-button type="submit" @click="handleLogin" expand="block" class="ion-margin-top">Login</ion-button>
             </div>
         </ion-content>
     </ion-page>
@@ -34,6 +34,10 @@ const handleLogin = () => {
     axios.post('https://gauravghimire.be/API_modernCare/api/UserGet.php', {
         username: username.value,
         wachtwoord: wachtwoord.value
+    }, {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
     })
         .then(response => {
             console.log('Response received:', response.data);
@@ -48,8 +52,4 @@ const handleLogin = () => {
             window.alert('Er is een fout opgetreden tijdens het inloggen.');
         });
 };
-
-
-
 </script>
-  
