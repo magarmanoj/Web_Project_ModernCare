@@ -12,9 +12,18 @@ require 'inc/base.php';
 // PRODUCTENget
 // --- "Get" de lijst met medewerkers per project
 
-$sql="SELECT k.KamerNummer, o.Prioriteit, vn.DatumTijdNotitie FROM Kamers k LEFT JOIN OngevalType o ON k.KamerID = o.ID 
-    LEFT JOIN VerzoekNotities vn ON k.KamerID = vn.VerzoekID  
-    ORDER BY
+$sql="SELECT  k.KamerID, k.KamerNummer, o.Prioriteit, vn.DatumTijdNotitie,v.Voornaam AS VerpleegsterVoornaam, v.Achternaam AS VerpleegsterAchternaam,
+v.Specialiteit, nv.Status AS NoodVerzoekStatus  
+FROM
+        OngevalType o
+    LEFT JOIN
+        Kamers k ON k.KamerID = o.ID
+    LEFT JOIN
+        VerzoekNotities vn ON k.KamerID = vn.VerzoekID
+    LEFT JOIN
+        NoodVerzoek nv ON k.KamerID = nv.OngevalTypeID
+    LEFT JOIN
+        Verpleegsters v ON vn.VerpleegsterID = v.VerpleegsterID
         CASE o.Prioriteit
             WHEN 'hoog' THEN 1
             WHEN 'middel' THEN 2

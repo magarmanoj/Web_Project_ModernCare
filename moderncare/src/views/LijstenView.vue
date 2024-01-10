@@ -30,9 +30,10 @@
           </ion-card-header>
 
           <ion-card-content>
-            <p>Kamer Nummer: {{ selectedItem.KamerNummer }}</p>
-            <p>Prioriteit: {{ selectedItem.Prioriteit }}</p>
-            <p>Datum: {{ selectedItem.DatumTijdNotitie }}</p>
+            <p>Verpleegster Voornaam: {{ selectedItem.VerpleegsterVoornaam }}</p>
+            <p>Verpleegster Achternaam: {{ selectedItem.VerpleegsterAchternaam }}</p>
+            <p>Specialiteit: {{ selectedItem.Specialiteit }}</p>
+            <p>NoodVerzoek Status: {{ selectedItem.NoodVerzoekStatus }}</p>
           </ion-card-content>
 
           <ion-button @click="closeModal">
