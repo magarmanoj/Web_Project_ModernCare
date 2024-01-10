@@ -11,7 +11,7 @@
       <ion-list>
         <ion-item v-for="(item, index) in lijsten" :key="index">
           <ion-label>
-            <h2>{{ item.KamerNummer }}</h2>
+            <h2>Kamer Nummer: {{ item.KamerNummer }}</h2>
             <p>Prioriteit: {{ item.Prioriteit }}</p>
             <p>Datum: {{ item.DatumTijdNotitie }}</p>
           </ion-label>
@@ -31,7 +31,7 @@
 
           <ion-card-content>
             <p>Kamer Nummer: {{ selectedItem.KamerNummer }}</p>
-            <p>Prioriteit: {{ selectedItem.Priroiteit }}</p>
+            <p>Prioriteit: {{ selectedItem.Prioriteit }}</p>
             <p>Datum: {{ selectedItem.DatumTijdNotitie }}</p>
           </ion-card-content>
 
@@ -47,6 +47,23 @@
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import { informationCircleOutline } from 'ionicons/icons';
+import {
+  IonPage,
+  IonContent,
+  IonList,
+  IonItem,
+  IonLabel,
+  IonButton,
+  IonModal,
+  IonCard,
+  IonCardHeader,
+  IonCardTitle,
+  IonCardContent,
+  IonIcon,
+  IonHeader, 
+  IonTitle,
+  IonToolbar
+} from '@ionic/vue';
 
 const lijsten = ref([]);
 const selectedItem = ref(null);
