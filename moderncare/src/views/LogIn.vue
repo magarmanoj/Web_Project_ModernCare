@@ -14,7 +14,7 @@
                     <ion-input type="password" v-model="wachtwoord" placeholder="Password"
                         aria-label="Password"></ion-input>
                 </ion-item>
-                <ion-button @click="handleLogin" expand="block" class="ion-margin-top">Login</ion-button>
+                <ion-button @submit="handleLogin" expand="block" class="ion-margin-top">Login</ion-button>
             </div>
         </ion-content>
     </ion-page>
