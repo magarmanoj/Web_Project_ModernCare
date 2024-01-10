@@ -23,9 +23,10 @@
 <script setup>
 import { ref } from 'vue';
 import axios from 'axios';
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonLabel, IonInput, IonButton } from '@ionic/vue';
+import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonLabel, IonInput, IonButton} from '@ionic/vue';
+import { useRouter } from 'vue-router';
 
-
+const router = useRouter();
 const username = ref('');
 const wachtwoord = ref('');
 
@@ -43,6 +44,7 @@ const handleLogin = () => {
             console.log('Response received:', response.data);
             if (response.data.status === 'ok') {
                 console.log('Login successful:', response.data.message);
+                router.push('/tabs/tabLijsten'); // Use router directly
             } else {
                 console.log('Login failed:', response.data.error);
             }
