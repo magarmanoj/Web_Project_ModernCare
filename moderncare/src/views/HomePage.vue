@@ -13,10 +13,7 @@
           <ion-label>LogIn</ion-label>
         </ion-tab-button>
 
-        <ion-tab-button tab="lijsten" href="/tabs/tabLijsten">
-          <ion-icon aria-hidden="true" :icon="listOutline" />
-          <ion-label>Lijsten</ion-label>
-        </ion-tab-button>
+      
 
         <ion-tab-button tab="about" href="/tabs/tabAbout">
           <ion-icon aria-hidden="true" :icon="informationCircle" />

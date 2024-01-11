@@ -14,7 +14,7 @@
                     <ion-input type="password" v-model="wachtwoord" placeholder="Password"
                         aria-label="Password"></ion-input>
                 </ion-item>
-                <ion-button @click="handleLogin" expand="block" class="ion-margin-top">Login</ion-button>
+                <ion-button type="submit" @click="handleLogin" expand="block" class="ion-margin-top">Login</ion-button>
             </div>
         </ion-content>
     </ion-page>
@@ -23,9 +23,10 @@
 <script setup>
 import { ref } from 'vue';
 import axios from 'axios';
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonLabel, IonInput, IonButton } from '@ionic/vue';
+import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonLabel, IonInput, IonButton} from '@ionic/vue';
+import { useRouter } from 'vue-router';
 
-
+const router = useRouter();
 const username = ref('');
 const wachtwoord = ref('');
 
@@ -34,11 +35,16 @@ const handleLogin = () => {
     axios.post('https://gauravghimire.be/API_modernCare/api/UserGet.php', {
         username: username.value,
         wachtwoord: wachtwoord.value
+    }, {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
     })
         .then(response => {
             console.log('Response received:', response.data);
             if (response.data.status === 'ok') {
                 console.log('Login successful:', response.data.message);
+                router.push('/tabs/tabLijsten'); // Use router directly
             } else {
                 console.log('Login failed:', response.data.error);
             }
@@ -48,8 +54,4 @@ const handleLogin = () => {
             window.alert('Er is een fout opgetreden tijdens het inloggen.');
         });
 };
-
-
-
 </script>
-  

@@ -1,10 +1,10 @@
 <template>
-    <ion-page>
-        <ion-header>
-            <ion-toolbar>
-                <ion-title>Lijsten</ion-title>
-            </ion-toolbar>
-        </ion-header>
+  <ion-page>
+      <ion-header>
+          <ion-toolbar>
+              <ion-title>Lijsten</ion-title>
+          </ion-toolbar>
+      </ion-header>
 
     
         <ion-content class="ion-padding">
@@ -71,43 +71,43 @@ const selectedItem = ref(null);
 const isModalOpen = ref(false);
 
 const fetchDetails= () => {
-  axios
-    .post('https://gauravghimire.be/API_modernCare/api/GetDetails.php')
-    .then((response) => {
-      // controleer de response
-      if (response.status !== 200) {
-        // er is iets fout gegaan, doe iets met deze info
-        console.log(response.status);
-      }
-      if (!response.data.data) {
-        // De data die we verwachten zit niet in response.data :
-        // de aangesproken API stopt zijn data in een data object (eigen code).
-        // Deze data zit echter ook in het data object in response.
-        // Daarom dus response.data.data
-        console.log('response.data.data is not ok');
-        return;
-      }
-      console.log(response.data);
+axios
+  .post('https://gauravghimire.be/API_modernCare/api/GetDetails.php')
+  .then((response) => {
+    // controleer de response
+    if (response.status !== 200) {
+      // er is iets fout gegaan, doe iets met deze info
+      console.log(response.status);
+    }
+    if (!response.data.data) {
+      // De data die we verwachten zit niet in response.data :
+      // de aangesproken API stopt zijn data in een data object (eigen code).
+      // Deze data zit echter ook in het data object in response.
+      // Daarom dus response.data.data
+      console.log('response.data.data is not ok');
+      return;
+    }
+    console.log(response.data);
 
-      lijsten.value = [];
-      for (let i = 0, end = response.data.data.length; i < end; i++) {
-        lijsten.value.push(response.data.data[i]);
-      }
-    });
+    lijsten.value = [];
+    for (let i = 0, end = response.data.data.length; i < end; i++) {
+      lijsten.value.push(response.data.data[i]);
+    }
+  });
 };
 
 const showDetails = (item) => {
-  selectedItem.value = item;
-  isModalOpen.value = true;
+selectedItem.value = item;
+isModalOpen.value = true;
 };
 
 const closeModal = () => {
-  selectedItem.value = null;
-  isModalOpen.value = false;
+selectedItem.value = null;
+isModalOpen.value = false;
 }
 
 onMounted(() => {
-    fetchDetails()
+  fetchDetails()
 });
 
 </script>
