@@ -16,7 +16,7 @@
                         <ion-icon slot="start" :icon="informationCircleOutline"></ion-icon>
                         Kamer Info
                     </ion-button>
-                    <ion-button @click="showPrioriteitButtons">
+                    <ion-button @click="showPrioriteitButtons(patient)">
                         Prioriteit
                     </ion-button>
                 </ion-item>
@@ -110,7 +110,8 @@ const closeModal = () => {
     isModalOpen.value = false;
 };
 
-const showPrioriteitButtons = () => {
+const showPrioriteitButtons = (patient) => {
+    selectedPatient.value = patient;
     isPrioriteitModalOpen.value = true;
 };
 
@@ -120,12 +121,14 @@ const closePrioriteitModal = () => {
 
 const updateOngevalType = (prioriteit) => {
     axios.post('https://gauravghimire.be/API_modernCare/api/OngevalType.php', {
+        PatiëntID: selectedPatient.value.PatiëntID,
         Prioriteit: prioriteit
     })
     .then(response => response.data)
     .then(responseData => {
         if (responseData.status === 'ok') {
             console.log(responseData.data);
+            closePrioriteitModal();
         }
     })
     .catch(error => {
