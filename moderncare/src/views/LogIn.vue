@@ -27,8 +27,8 @@ import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonLabel
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
-const username = ref('');
-const wachtwoord = ref('');
+const username = ref('test');
+const wachtwoord = ref('test');
 
 const handleLogin = () => {
     console.log('Attempting login with:', username.value, wachtwoord.value);
