@@ -39,31 +39,42 @@
                 </ion-content>
             </ion-modal>
 
-            <ion-modal :is-open="isPrioriteitModalOpen" :backdropDismiss="false">
+            <ion-modal :is-open="isPrioriteitModalOpen" :backdropDismiss="false" >
                 <ion-content>
-                    <ion-grid class="homeGrid">
-                        <ion-row>
-                            <ion-col class="ion-text-center">
-                                <ion-button @click="updateOngevalType('Laag')" class="oproepBtn" expand="half">
-                                    <font-awesome-icon :icon="['fas', 'restroom']" />
-                                    Laag
-                                </ion-button>
-                            </ion-col>
-                            <ion-col class="ion-text-center">
-                                <ion-button @click="updateOngevalType('Hoog')" class="oproepBtn" expand="half">
-                                    <font-awesome-icon :icon="['fas', 'circle-exclamation']" />
-                                    Hoog
-                                </ion-button>
-                            </ion-col>
-                            <ion-col class="ion-text-center">
-                                <ion-button @click="updateOngevalType('Middel')" class="oproepBtn" expand="half">
-                                    <font-awesome-icon :icon="['fas', 'person-falling-burst']" />
-                                    Middel
-                                </ion-button>
-                            </ion-col>
-                        </ion-row>
+                    <ion-card>
+                        <ion-card-header>
+                            <ion-card-title>Selecteer Prioriteit</ion-card-title>
+                        </ion-card-header>
+                        <ion-card-content>
+                            <ion-grid class="homeGrid">
+                                <ion-row>
+                                    <ion-col class="ion-text-center">
+                                        <ion-button @click="updateOngevalType('Laag')" class="oproepBtn" expand="block">
+                                            <font-awesome-icon :icon="['fas', 'restroom']" />
+                                            Laag
+                                        </ion-button>
+                                    </ion-col>
+                                </ion-row>
+                                <ion-row>
+                                    <ion-col class="ion-text-center">
+                                        <ion-button @click="updateOngevalType('Hoog')" class="oproepBtn" expand="block">
+                                            <font-awesome-icon :icon="['fas', 'circle-exclamation']" />
+                                            Hoog
+                                        </ion-button>
+                                    </ion-col>
+                                </ion-row>
+                                <ion-row>
+                                    <ion-col class="ion-text-center">
+                                        <ion-button @click="updateOngevalType('Middel')" class="oproepBtn" expand="block">
+                                            <font-awesome-icon :icon="['fas', 'person-falling-burst']" />
+                                              Middel
+                                        </ion-button>
+                                    </ion-col>
+                                </ion-row>
+                            </ion-grid>
+                        </ion-card-content>
                         <ion-button @click="closePrioriteitModal">Close</ion-button>
-                    </ion-grid>
+                    </ion-card>
                 </ion-content>
             </ion-modal>
         </ion-content>
@@ -142,3 +153,17 @@ onMounted(() => {
     fetchDetails();
 });
 </script>
+
+<style>
+.homeContent {
+    --ion-background-color: #f8f9fa;
+}
+.homeGrid {
+    padding: 20px;
+}
+.oproepBtn {
+    margin: 10px;
+    width: 100%;
+}
+
+</style>
