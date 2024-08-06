@@ -28,7 +28,7 @@
         </ion-item>
       </ion-list>
     </ion-content>
-    <ion-modal v-if="selectedItem" :is-open="isModalOpen">
+    <ion-modal v-if="selectedItem" :is-open="isModalOpen" :backdropDismiss="false">
       <ion-content>
         <ion-card>
           <ion-card-header>
@@ -38,7 +38,6 @@
             <p>Verpleegster Voornaam: {{ selectedItem.VerpleegsterVoornaam }}</p>
             <p>Verpleegster Achternaam: {{ selectedItem.VerpleegsterAchternaam }}</p>
             <p>Specialiteit: {{ selectedItem.Specialiteit }}</p>
-            <p>NoodVerzoek Status: {{ selectedItem.NoodVerzoekStatus }}</p>
           </ion-card-content>
         </ion-card>
         <ion-card>
@@ -54,7 +53,7 @@
             <p>Ontsag Datum: {{ selectedItem.OntslagDatum }}</p>
           </ion-card-content>
 
-          <ion-button @click="closeModal">
+          <ion-button @click="closeModal" >
             Close
           </ion-button>
         </ion-card>
@@ -125,13 +124,9 @@ isModalOpen.value = false;
 }
 
 const WorkDone = (item, index) => {
-  console.log('Item to be deleted:', item);
-  console.log('Index in list:', index);
-  console.log('PatiëntID:', item.PatiëntID);
-
   axios
     .post('https://gauravghimire.be/API_modernCare/api/RemoveOngevalType.php', {
-      PatiëntID: item.PatiëntID
+      ID: item.ID
     })
     .then((response) => {
       console.log('API Response:', response.data);
