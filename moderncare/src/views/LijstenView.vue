@@ -13,13 +13,13 @@
           <ion-label>
             <h2>Kamer Nummer: {{ item.KamerNummer }}</h2>
             <p>Prioriteit: {{ item.Prioriteit }}</p>
-            <p>Datum: {{ item.DatumTijdNotitie }}</p>
+            <p>Tijd: {{ item.Time }}</p>
           </ion-label>
           <ion-button @click="WorkDone(item, index)" style="justify-content: center;">
             <ion-icon slot="icon-only" :icon="checkmarkOutline"></ion-icon>
           </ion-button>
           <ion-button @click="WorkInProgress(item)" style="justify-content: center;">
-            <ion-icon slot="icon-only" :icon="syncOutline"></ion-icon>
+            <ion-icon slot="icon-only" :icon="syncOutline"></ion-icon> 
           </ion-button>
           <ion-button @click="showDetails(item)">
             <ion-icon slot="start" :icon="informationCircleOutline"></ion-icon>
