@@ -125,24 +125,20 @@ isModalOpen.value = false;
 }
 
 const WorkDone = (item, index) => {
-  // Log the parameters to verify
   console.log('Item to be deleted:', item);
   console.log('Index in list:', index);
+  console.log('PatiëntID:', item.PatiëntID);
 
-  // Perform the API request
   axios
     .post('https://gauravghimire.be/API_modernCare/api/RemoveOngevalType.php', {
-      PatiëntID: item.PatiëntID,  // Ensure this is the correct field
-      ID: item.ID // Ensure this is the correct field
+      PatiëntID: item.PatiëntID
     })
     .then((response) => {
-      console.log('API Response:', response.data); // Log the entire response
+      console.log('API Response:', response.data);
       if (response.data.status === "ok") {
-        // Optionally remove the item from the list
         lijsten.value.splice(index, 1);
         console.log('Item removed successfully');
       } else {
-        // Log the whole response to debug
         console.log('Error deleting item:', response.data);
       }
     })
@@ -150,6 +146,7 @@ const WorkDone = (item, index) => {
       console.log('Error:', error.response ? error.response.data : error.message);
     });
 };
+
 
 
 
