@@ -15,6 +15,12 @@
             <p>Prioriteit: {{ item.Prioriteit }}</p>
             <p>Datum: {{ item.DatumTijdNotitie }}</p>
           </ion-label>
+          <ion-button @click="WorkDone(item)" style="justify-content: center;">
+            <ion-icon slot="icon-only" :icon="checkmarkOutline"></ion-icon>
+          </ion-button>
+          <ion-button @click="WorkInProgress(item)" style="justify-content: center;">
+            <ion-icon slot="icon-only" :icon="syncOutline"></ion-icon>
+          </ion-button>
           <ion-button @click="showDetails(item)">
             <ion-icon slot="start" :icon="informationCircleOutline"></ion-icon>
             Info
@@ -26,14 +32,26 @@
       <ion-content>
         <ion-card>
           <ion-card-header>
-            <ion-card-title>Details</ion-card-title>
+            <ion-card-title>Verpleegster Info</ion-card-title>
           </ion-card-header>
-
           <ion-card-content>
             <p>Verpleegster Voornaam: {{ selectedItem.VerpleegsterVoornaam }}</p>
             <p>Verpleegster Achternaam: {{ selectedItem.VerpleegsterAchternaam }}</p>
             <p>Specialiteit: {{ selectedItem.Specialiteit }}</p>
             <p>NoodVerzoek Status: {{ selectedItem.NoodVerzoekStatus }}</p>
+          </ion-card-content>
+        </ion-card>
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>Patient Info</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <p>Patient Voornaam: {{ selectedItem.PatientVoornaam }}</p>
+            <p>Patient Achternaam: {{ selectedItem.PatientAchternaam }}</p>
+            <p>Leeftijd: {{ selectedItem.Leeftijd }}</p>
+            <p>Gelsacht: {{ selectedItem.Geslacht }}</p>
+            <p>Opname Datum: {{ selectedItem.OpnameDatum }}</p>
+            <p>Ontsag Datum: {{ selectedItem.OntslagDatum }}</p>
           </ion-card-content>
 
           <ion-button @click="closeModal">
@@ -47,7 +65,7 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
-import { informationCircleOutline } from 'ionicons/icons';
+import { informationCircleOutline, syncOutline,checkmarkOutline  } from 'ionicons/icons';
 import {
   IonPage,
   IonContent,
@@ -105,6 +123,31 @@ const closeModal = () => {
 selectedItem.value = null;
 isModalOpen.value = false;
 }
+
+const WorkDone = (item, index) => {
+  axios
+    .post('https://gauravghimire.be/API_modernCare/api/RemoveOngevalType.php', {
+      PatiëntID: item.PatiëntID,  // Ensure this is the correct field
+      ID: item.ID // Ensure this is the correct field
+    })
+    .then((response) => {
+      console.log('API Response:', response.data); // Log the entire response
+      if (response.data.status === "ok") {
+        // Optionally remove the item from the list
+        lijsten.value.splice(index, 1);
+        console.log('Item removed successfully');
+      } else {
+        // Log the whole response to debug
+        console.log('Error deleting item:', response.data);
+      }
+    })
+    .catch((error) => {
+      console.log('Error:', error.response ? error.response.data : error.message);
+    });
+};
+
+
+
 
 onMounted(() => {
   fetchDetails()
