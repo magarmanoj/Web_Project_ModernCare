@@ -17,12 +17,13 @@
                         Kamer Info
                     </ion-button>
                     <ion-button @click="showPrioriteitButtons(patient)">
+                        <ion-icon slot="start" :icon="alertCircleSharp"></ion-icon>
                         Prioriteit
                     </ion-button>
                 </ion-item>
             </ion-list>
 
-            <ion-modal v-if="selectedPatient" :is-open="isModalOpen">
+            <ion-modal v-if="selectedPatient" :is-open="isModalOpen " :backdropDismiss="false">
                 <ion-content>
                     <ion-card>
                         <ion-card-header>
@@ -38,7 +39,7 @@
                 </ion-content>
             </ion-modal>
 
-            <ion-modal :is-open="isPrioriteitModalOpen">
+            <ion-modal :is-open="isPrioriteitModalOpen" :backdropDismiss="false">
                 <ion-content>
                     <ion-grid class="homeGrid">
                         <ion-row>
@@ -76,7 +77,7 @@ import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonGrid, IonRow, 
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
-import { informationCircleOutline } from 'ionicons/icons';
+import { informationCircleOutline, alertCircleSharp } from 'ionicons/icons';
 
 library.add(fas);
 
