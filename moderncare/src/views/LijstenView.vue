@@ -15,7 +15,7 @@
             <p>Prioriteit: {{ item.Prioriteit }}</p>
             <p>Datum: {{ item.DatumTijdNotitie }}</p>
           </ion-label>
-          <ion-button @click="WorkDone(item)" style="justify-content: center;">
+          <ion-button @click="WorkDone(item, index)" style="justify-content: center;">
             <ion-icon slot="icon-only" :icon="checkmarkOutline"></ion-icon>
           </ion-button>
           <ion-button @click="WorkInProgress(item)" style="justify-content: center;">
@@ -125,6 +125,11 @@ isModalOpen.value = false;
 }
 
 const WorkDone = (item, index) => {
+  // Log the parameters to verify
+  console.log('Item to be deleted:', item);
+  console.log('Index in list:', index);
+
+  // Perform the API request
   axios
     .post('https://gauravghimire.be/API_modernCare/api/RemoveOngevalType.php', {
       PatiëntID: item.PatiëntID,  // Ensure this is the correct field
@@ -145,6 +150,7 @@ const WorkDone = (item, index) => {
       console.log('Error:', error.response ? error.response.data : error.message);
     });
 };
+
 
 
 
