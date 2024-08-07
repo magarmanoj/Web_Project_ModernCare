@@ -49,14 +49,6 @@
                             <ion-grid class="homeGrid">
                                 <ion-row>
                                     <ion-col class="ion-text-center">
-                                        <ion-button @click="updateOngevalType('Laag')" class="oproepBtn" expand="block">
-                                            <font-awesome-icon :icon="['fas', 'restroom']" />
-                                            Laag
-                                        </ion-button>
-                                    </ion-col>
-                                </ion-row>
-                                <ion-row>
-                                    <ion-col class="ion-text-center">
                                         <ion-button @click="updateOngevalType('Hoog')" class="oproepBtn" expand="block">
                                             <font-awesome-icon :icon="['fas', 'circle-exclamation']" />
                                             Hoog
@@ -68,6 +60,14 @@
                                         <ion-button @click="updateOngevalType('Middel')" class="oproepBtn" expand="block">
                                             <font-awesome-icon :icon="['fas', 'person-falling-burst']" />
                                               Middel
+                                        </ion-button>
+                                    </ion-col>
+                                </ion-row>
+                                <ion-row>
+                                    <ion-col class="ion-text-center">
+                                        <ion-button @click="updateOngevalType('Laag')" class="oproepBtn" expand="block">
+                                            <font-awesome-icon :icon="['fas', 'restroom']" />
+                                            Laag
                                         </ion-button>
                                     </ion-col>
                                 </ion-row>
