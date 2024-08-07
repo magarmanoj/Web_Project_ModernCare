@@ -123,25 +123,34 @@ const closeModal = () => {
 };
 
 const WorkDone = (item, index) => {
-  axios.post('https://gauravghimire.be/API_modernCare/api/RemoveOngevalType.php', {
-      ID: item.ID
-    })
-    .then((response) => {
+  console.log(item.VerzoekID);
+  console.log(item.Status);
+  console.log(item.OngevalID);
+  
+  item.Status = 0;
+  
+  axios.post('https://gauravghimire.be/API_modernCare/api/UpdateStatus.php', {
+      ID: item.VerzoekID,
+      Status: item.Status,
+      OngevalID: item.OngevalID
+  })
+  .then((response) => {
       console.log('API Response:', response.data);
       if (response.data.status === "ok") {
-        lijsten.value.splice(index, 1);
-        console.log('Item removed successfully');
+          lijsten.value.splice(index, 1); // Remove item from the list
+          console.log('Item removed successfully');
       } else {
-        console.log('Error deleting item:', response.data);
+          console.log('Error updating item:', response.data);
       }
-    })
-    .catch((error) => {
+  })
+  .catch((error) => {
       console.log('Error:', error.response ? error.response.data : error.message);
-    });
+  });
 };
 
+
 const WorkInProgress = (item) => {
-  console.log(item.VerpleegsterID);
+  console.log(item.OngevalID);
   console.log(item.KamerID);
   console.log(item.Status);
   console.log(item.Beschrijving);
@@ -150,11 +159,10 @@ const WorkInProgress = (item) => {
       return;
     }else{
     item.Status = 1;
-    axios.post('https://gauravghimire.be/API_modernCare/api/Test.php', {
-      VerpleegsterID: item.VerpleegsterID,
+    axios.post('https://gauravghimire.be/API_modernCare/api/VerzoekNotitiesAdd.php', {
       KamerID: item.KamerID,
       Status: item.Status,
-      Beschrijving: item.Beschrijving || "GEEN beschrijving"
+      OngevalID: item.OngevalID,  // Include OngevalID
     })
       .then((response) => {
         console.log('VerzoekNotatie added:', response.data);
