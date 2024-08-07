@@ -3,6 +3,9 @@
     <ion-header>
       <ion-toolbar>
         <ion-title>Lijsten</ion-title>
+          <ion-button slot="end" @click="logout">
+            <ion-icon slot="icon-only" :icon="logOutOutline"></ion-icon>
+          </ion-button>
       </ion-toolbar>
     </ion-header>
 
@@ -69,15 +72,14 @@
 
 <script setup>
 import { ref, onMounted, watch } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute,useRouter  } from 'vue-router';
 import axios from 'axios';
-import { informationCircleOutline, syncOutline, checkmarkOutline } from 'ionicons/icons';
+import { informationCircleOutline, syncOutline, checkmarkOutline, logOutOutline } from 'ionicons/icons';
 import {
   IonPage,
   IonContent,
   IonList,
-  IonItem,
-  IonLabel,
+  IonButtons,
   IonButton,
   IonModal,
   IonCard,
@@ -92,6 +94,8 @@ import {
 
 
 const route = useRoute();
+const router = useRouter();
+
 const lijsten = ref([]);
 const selectedItem = ref(null);
 const isModalOpen = ref(false);
@@ -110,7 +114,7 @@ const fetchDetails = () => {
 
       lijsten.value = response.data.data.map(item => ({
         ...item,
-        Status: item.Status || 0  
+        Status: item.Status || 0
       }));
     });
 };
@@ -126,6 +130,14 @@ const closeModal = () => {
 };
 
 const WorkDone = (item, index) => {
+  const userData = JSON.parse(localStorage.getItem('userData'));
+  console.log('User Data:', userData);
+  console.log('Task Data:', item);
+  
+  if (!userData || item.VerpleegsterID !== userData.VerpleegsterID) {
+    alert('You can only complete tasks you have accepted.');
+    return;
+  }
   console.log(item.VerzoekID);
   console.log(item.Status);
   console.log(item.OngevalID);
@@ -153,34 +165,44 @@ const WorkDone = (item, index) => {
 
 
 const WorkInProgress = (item) => {
-  console.log(item.OngevalID);
-  console.log(item.KamerID);
-  console.log(item.Status);
-  console.log(item.Beschrijving);
+    console.log(item.OngevalID);
+    console.log(item.KamerID);
+    console.log(item.Status);
 
-    if(item.Status == 1){
-      return;
-    }else{
-    item.Status = 1;
-    axios.post('https://gauravghimire.be/API_modernCare/api/VerzoekNotitiesAdd.php', {
-      KamerID: item.KamerID,
-      Status: item.Status,
-      OngevalID: item.OngevalID,  // Include OngevalID
-    })
+    const userData = JSON.parse(localStorage.getItem('userData'));
+
+    console.log(userData);
+    if (!userData || item.Status == 1) {
+      return;  // If already in progress or no user data, return early
+    } else {
+      item.Status = 1;  // Update status to in progress
+      axios.post('https://gauravghimire.be/API_modernCare/api/VerzoekNotitiesAdd.php', {
+          KamerID: item.KamerID,
+          Status: item.Status,
+          OngevalID: item.OngevalID,
+          VerpleegsterID: userData.VerpleegsterID  // Using stored nurse ID from local storage
+      })
       .then((response) => {
-        console.log('VerzoekNotatie added:', response.data);
-        if (response.data.status !== "ok") {
-          console.log('Error adding VerzoekNotatie:', response.data);
-        } else {
-        // Refresh the list after updating
-        fetchDetails();
-      }
+          console.log('VerzoekNotatie added:', response.data);
+          if (response.data.status !== "ok") {
+              console.log('Error adding VerzoekNotatie:', response.data);
+          } else {
+            item.VerpleegsterVoornaam = userData.VerpleegsterID.Voornaam;  // Assuming userData contains firstName
+            item.VerpleegsterAchternaam = userData.VerpleegsterID.PatientAchternaam;
+            fetchDetails();  // Refresh the list after updating
+          }
       })
       .catch((error) => {
-        console.log('Error:', error.response ? error.response.data : error.message);
+          console.log('Error:', error.response ? error.response.data : error.message);
       });
     }
-  };
+};
+
+const logout = () => {
+  localStorage.removeItem('userData'); 
+  router.push('/tabs/tabLogin');  // Redirect to login page
+  // Clear user data from localStorage
+};
 
 // Fetch data when the component is mounted
 onMounted(() => {

@@ -44,6 +44,9 @@ const handleLogin = () => {
             console.log('Response received:', response.data);
             if (response.data.status === 'ok') {
                 console.log('Login successful:', response.data.message);
+                console.log('User data to store:', response.data.user);  // Check what you're actually storing
+
+                localStorage.setItem('userData', JSON.stringify(response.data.user));
                 router.push('/tabs/tabLijsten'); // Use router directly
             } else {
                 console.log('Login failed:', response.data.error);
