@@ -68,7 +68,8 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
+import { useRoute } from 'vue-router';
 import axios from 'axios';
 import { informationCircleOutline, syncOutline, checkmarkOutline } from 'ionicons/icons';
 import {
@@ -89,6 +90,8 @@ import {
   IonToolbar
 } from '@ionic/vue';
 
+
+const route = useRoute();
 const lijsten = ref([]);
 const selectedItem = ref(null);
 const isModalOpen = ref(false);
@@ -168,7 +171,10 @@ const WorkInProgress = (item) => {
         console.log('VerzoekNotatie added:', response.data);
         if (response.data.status !== "ok") {
           console.log('Error adding VerzoekNotatie:', response.data);
-        }
+        } else {
+        // Refresh the list after updating
+        fetchDetails();
+      }
       })
       .catch((error) => {
         console.log('Error:', error.response ? error.response.data : error.message);
@@ -176,7 +182,13 @@ const WorkInProgress = (item) => {
     }
   };
 
+// Fetch data when the component is mounted
 onMounted(() => {
+  fetchDetails();
+});
+
+// Watch for route changes and re-fetch data if needed
+watch(() => route.path, () => {
   fetchDetails();
 });
 </script>
