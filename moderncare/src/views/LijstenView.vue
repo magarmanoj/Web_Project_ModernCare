@@ -173,23 +173,23 @@ const WorkInProgress = (item) => {
 
     console.log(userData);
     if (!userData || item.Status == 1) {
-      return;  // If already in progress or no user data, return early
+      return; 
     } else {
-      item.Status = 1;  // Update status to in progress
+      item.Status = 1;  
       axios.post('https://gauravghimire.be/API_modernCare/api/VerzoekNotitiesAdd.php', {
           KamerID: item.KamerID,
           Status: item.Status,
           OngevalID: item.OngevalID,
-          VerpleegsterID: userData.VerpleegsterID  // Using stored nurse ID from local storage
+          VerpleegsterID: userData.VerpleegsterID
       })
       .then((response) => {
           console.log('VerzoekNotatie added:', response.data);
           if (response.data.status !== "ok") {
               console.log('Error adding VerzoekNotatie:', response.data);
           } else {
-            item.VerpleegsterVoornaam = userData.VerpleegsterID.Voornaam;  // Assuming userData contains firstName
+            item.VerpleegsterVoornaam = userData.VerpleegsterID.Voornaam; 
             item.VerpleegsterAchternaam = userData.VerpleegsterID.PatientAchternaam;
-            fetchDetails();  // Refresh the list after updating
+            fetchDetails();
           }
       })
       .catch((error) => {
@@ -200,16 +200,13 @@ const WorkInProgress = (item) => {
 
 const logout = () => {
   localStorage.removeItem('userData'); 
-  router.push('/tabs/tabLogin');  // Redirect to login page
-  // Clear user data from localStorage
+  router.push('/tabs/tabLogin');
 };
 
-// Fetch data when the component is mounted
 onMounted(() => {
   fetchDetails();
 });
 
-// Watch for route changes and re-fetch data if needed
 watch(() => route.path, () => {
   fetchDetails();
 });

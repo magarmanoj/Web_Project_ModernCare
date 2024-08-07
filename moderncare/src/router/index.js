@@ -21,12 +21,11 @@ const routes = [
       {
         path: 'tabLogin',
         component: () => import('@/views/LogIn.vue'),
-        // Prevent access if logged in
         beforeEnter: (to, from, next) => {
           if (localStorage.getItem('userData')) {
-            next('/tabs/tabLijsten'); // Redirect to tabLijsten if already logged in
+            next('/tabs/tabLijsten'); 
           } else {
-            next(); // Allow access to login page if not logged in
+            next();
           }
         }
       },
