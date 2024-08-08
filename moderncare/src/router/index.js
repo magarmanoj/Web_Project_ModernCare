@@ -35,12 +35,13 @@ const routes = [
       },
       {
         path: 'tabPatient',
-        component: () => import('@/views/PatientPage.vue'),
+        component: () => import('@/views/TestPage.vue'),
         meta: { requiresAdmin: true } // Require admin role to access
       },
       {
         path: 'tabVerpleegster',
         component: () => import('@/views/VerpleegsterPage.vue'),
+        meta: { requiresAdmin: true } // Require admin role to access
       }
     ]
   }

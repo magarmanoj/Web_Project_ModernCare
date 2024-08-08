@@ -3,6 +3,9 @@
         <ion-header>
             <ion-toolbar>
                 <ion-title>Verpleegsters</ion-title>
+                <ion-button slot="end" @click="logout">
+                    <ion-icon slot="icon-only" :icon="logOutOutline"></ion-icon>
+                </ion-button>
             </ion-toolbar>
         </ion-header>
 
@@ -59,10 +62,13 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
+import { useRouter  } from 'vue-router';
 import axios from 'axios';
+import {logOutOutline } from 'ionicons/icons';
 import {
     IonPage,
     IonHeader,
+    IonIcon,
     IonToolbar,
     IonTitle,
     IonContent,
@@ -78,6 +84,9 @@ import {
     IonSelect,
     IonSelectOption
 } from '@ionic/vue';
+
+
+const router = useRouter();
 
 const verpleegsters = ref([]);
 const voornaam = ref('');
@@ -151,6 +160,15 @@ const clearForm = () => {
 };
 
 onMounted(() => {
+    const userData = JSON.parse(localStorage.getItem('userData'));
+    if (!userData || userData.IsAdmin !== 1) {
+    router.push('/tabs/tabHome');
+    }
     fetchVerpleegsters();
 });
+
+const logout = () => {
+  localStorage.removeItem('userData'); 
+  router.push('/tabs/tabLogin');
+};
 </script>
