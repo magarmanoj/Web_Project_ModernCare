@@ -88,6 +88,7 @@ const email = ref('');
 const isAdmin = ref(0);
 const username = ref('');
 const wachtwoord = ref('');
+
 const fetchVerpleegsters = () => {
     axios.get('https://gauravghimire.be/API_modernCare/api/VerpleegsterGet.php')
         .then(response => {
@@ -105,41 +106,22 @@ const addVerpleegster = () => {
         Telefoonnummer: telefoon.value,
         Email: email.value,
         Specialiteit: specialiteit.value,
-        IsAdmin: isAdmin.value
+        IsAdmin: isAdmin.value,
+        username: username.value,
+        wachtwoord: wachtwoord.value
     })
         .then(response => {
             if (response.data.status === 'ok') {
-                console.log('Verpleegster added successfully:', response.data);
-                const VerpleegsterID = response.data.VerpleegsterID;
-                console.log(VerpleegsterID);
-                addUser(VerpleegsterID);
+                console.log('Verpleegster and User added successfully:', response.data);
+                fetchVerpleegsters();
+                clearForm();
             } else {
-                console.error('Error adding verpleegster:', response.data);
+                console.error('Error adding Verpleegster and User:', response.data);
             }
         })
         .catch(error => {
-            console.error('Error adding verpleegster:', error);
+            console.error('Error adding Verpleegster and User:', error);
         });
-};
-
-const addUser = (VerpleegsterID) => {
-  axios.post('https://gauravghimire.be/API_modernCare/api/UserAdd.php', {
-    username: username.value,
-    wachtwoord: wachtwoord.value,
-    VerpleegsterID: VerpleegsterID
-  })
-  .then(response => {
-    if (response.data.status === 'ok') {
-      console.log('User added successfully:', response.data);
-      fetchVerpleegsters();
-      clearForm();
-    } else {
-      console.error('Error adding user:', response.data);
-    }
-  })
-  .catch(error => {
-    console.error('Error adding user:', error);
-  });
 };
 
 const deleteVerpleegster = (verpleegsterID) => {
