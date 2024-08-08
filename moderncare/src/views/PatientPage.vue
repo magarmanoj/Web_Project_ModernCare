@@ -78,6 +78,7 @@ import axios from 'axios';
 import {logOutOutline } from 'ionicons/icons';
 import {
   IonPage,
+  IonIcon,
   IonHeader,
   IonToolbar,
   IonTitle,
