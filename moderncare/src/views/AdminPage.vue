@@ -19,9 +19,6 @@
             </ion-card-header>
             <ion-card-content>
               <ion-card>
-      <ion-card-header>
-        <ion-card-title>Voeg Patiënt Toe</ion-card-title>
-      </ion-card-header>
       <ion-card-content>
         <ion-item>
           <ion-input label="Voornaam" v-model="voornaam"></ion-input>
@@ -87,9 +84,6 @@
             </ion-card-header>
             <ion-card-content>
               <ion-card>
-              <ion-card-header>
-                  <ion-card-title>Voeg Verpleegster Toe</ion-card-title>
-              </ion-card-header>
               <ion-card-content>
                   <ion-item>
                       <ion-input label="Voornaam" v-model="verpleegstervoornaam"></ion-input>
