@@ -154,7 +154,7 @@ const addPatient = () => {
   if (kamer) {
     const KamerID = kamer.KamerID;
     // Add Patient 
-    axios.post('https://gauravghimire.be/API_modernCare/api/test.php', {
+    axios.post('https://gauravghimire.be/API_modernCare/api/PatientAdd.php', {
       Voornaam: voornaam.value,
       Achternaam: achternaam.value,
       Leeftijd: leeftijd.value,
@@ -180,7 +180,6 @@ const addPatient = () => {
 };
 
 const deletePatient = (patientID) => {
-  console.log(patientID);
   axios.post('https://gauravghimire.be/API_modernCare/api/PatientDelete.php', { PatiëntID: patientID })
     .then(response => {
       if (response.data.status === 'ok') {
