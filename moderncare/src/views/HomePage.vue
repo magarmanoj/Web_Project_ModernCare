@@ -25,6 +25,11 @@
           <ion-label>Patient</ion-label>
         </ion-tab-button>
 
+        <ion-tab-button tab="verpleegster" href="/tabs/tabVerpleegster">
+          <ion-icon aria-hidden="true" :icon="person" />
+          <ion-label>Nurse</ion-label>
+        </ion-tab-button>
+
       </ion-tab-bar>
     </ion-tabs>
   </ion-page>
