@@ -82,8 +82,10 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import axios from 'axios';
+import { useRoute  } from 'vue-router';
+
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonGrid, IonRow, IonCol, IonButton, IonModal, IonList, IonCard, IonCardHeader, IonLabel, IonItem, IonCardContent, IonIcon, IonCardTitle } from '@ionic/vue';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
@@ -91,6 +93,8 @@ import { fas } from '@fortawesome/free-solid-svg-icons';
 import { informationCircleOutline, alertCircleSharp } from 'ionicons/icons';
 
 library.add(fas);
+
+const route = useRoute();
 
 const patients = ref([]);
 const selectedPatient = ref(null);
@@ -151,6 +155,10 @@ const updateOngevalType = (prioriteit) => {
 
 onMounted(() => {
     fetchDetails();
+});
+
+watch(() => route.path, () => {
+  fetchDetails();
 });
 </script>
 
