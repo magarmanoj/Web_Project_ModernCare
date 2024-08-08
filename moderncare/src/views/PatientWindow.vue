@@ -3,6 +3,9 @@
         <ion-header>
             <ion-toolbar>
                 <ion-title class="ion-text-center">Home</ion-title>
+                    <ion-button slot="end" @click="logout">
+                        <ion-icon slot="icon-only" :icon="logOutOutline"></ion-icon>
+                    </ion-button>
             </ion-toolbar>
         </ion-header>
 
@@ -84,17 +87,18 @@
 <script setup>
 import { ref, onMounted, watch } from 'vue';
 import axios from 'axios';
-import { useRoute  } from 'vue-router';
+import { useRoute, useRouter  } from 'vue-router';
 
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonGrid, IonRow, IonCol, IonButton, IonModal, IonList, IonCard, IonCardHeader, IonLabel, IonItem, IonCardContent, IonIcon, IonCardTitle } from '@ionic/vue';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
-import { informationCircleOutline, alertCircleSharp } from 'ionicons/icons';
+import { informationCircleOutline, alertCircleSharp, logOutOutline } from 'ionicons/icons';
 
 library.add(fas);
 
 const route = useRoute();
+const router = useRouter();
 
 const patients = ref([]);
 const selectedPatient = ref(null);
@@ -158,8 +162,13 @@ onMounted(() => {
 });
 
 watch(() => route.path, () => {
-  fetchDetails();
+    fetchDetails();
 });
+
+const logout = () => {
+  localStorage.removeItem('userData'); 
+  router.push('/tabs/tabLogin');
+};
 </script>
 
 <style>

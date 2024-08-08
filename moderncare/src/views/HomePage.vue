@@ -32,6 +32,6 @@
 
 <script setup>
 import { IonTabBar, IonTabButton, IonTabs, IonLabel, IonIcon, IonPage, IonRouterOutlet } from '@ionic/vue';
-import { desktop, listOutline, informationCircle, home, person } from 'ionicons/icons';
+import { desktop, informationCircle, home, person } from 'ionicons/icons';
 
 </script>

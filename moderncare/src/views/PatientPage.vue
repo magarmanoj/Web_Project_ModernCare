@@ -3,6 +3,9 @@
     <ion-header>
       <ion-toolbar>
         <ion-title>Patiënten Beheer</ion-title>
+        <ion-button slot="end" @click="logout">
+            <ion-icon slot="icon-only" :icon="logOutOutline"></ion-icon>
+          </ion-button>
       </ion-toolbar>
     </ion-header>
 
@@ -70,7 +73,9 @@
 
 <script setup>
 import { ref, onMounted, watch } from 'vue';
+import { useRouter  } from 'vue-router';
 import axios from 'axios';
+import {logOutOutline } from 'ionicons/icons';
 import {
   IonPage,
   IonHeader,
@@ -90,6 +95,9 @@ import {
   IonButton,
   IonList
 } from '@ionic/vue';
+
+
+const router = useRouter();
 
 const patients = ref([]);
 const voornaam = ref('');
@@ -206,6 +214,10 @@ const clearForm = () => {
 };
 
 onMounted(() => {
+  const userData = JSON.parse(localStorage.getItem('userData'));
+  if (!userData || userData.IsAdmin !== 1) {
+    router.push('/tabs/tabHome');
+  }
   fetchPatients();
   fetchKamers();
 });
@@ -217,6 +229,12 @@ watch(blokNaam, () => {
 watch(verdieping, () => {
   updateKamerNummers();
 });
+
+const logout = () => {
+  localStorage.removeItem('userData'); 
+  router.push('/tabs/tabLogin');
+};
+
 </script>
 
 <style scoped>
