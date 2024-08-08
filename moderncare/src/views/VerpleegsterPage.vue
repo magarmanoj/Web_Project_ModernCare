@@ -27,6 +27,18 @@
                     <ion-item>
                         <ion-input label="Specialiteit" v-model="specialiteit"></ion-input>
                     </ion-item>
+                    <ion-item>
+                        <ion-select label="Is Admin" v-model="isAdmin">
+                            <ion-select-option value="1">Ja</ion-select-option>
+                            <ion-select-option value="0">Nee</ion-select-option>
+                        </ion-select>
+                    </ion-item>
+                    <ion-item>
+                        <ion-input label="Username" v-model="username"></ion-input>
+                    </ion-item>
+                    <ion-item>
+                        <ion-input label="Wachtwoord" type="password" v-model="wachtwoord"></ion-input>
+                    </ion-item>
                     <ion-button expand="full" @click="addVerpleegster">Voeg Verpleegster Toe</ion-button>
                 </ion-card-content>
             </ion-card>
@@ -62,7 +74,9 @@ import {
     IonLabel,
     IonInput,
     IonButton,
-    IonList
+    IonList,
+    IonSelect,
+    IonSelectOption
 } from '@ionic/vue';
 
 const verpleegsters = ref([]);
@@ -70,8 +84,10 @@ const voornaam = ref('');
 const achternaam = ref('');
 const specialiteit = ref('');
 const telefoon = ref('');
-const email = ref(''); 
-
+const email = ref('');
+const isAdmin = ref(0);
+const username = ref('');
+const wachtwoord = ref('');
 const fetchVerpleegsters = () => {
     axios.get('https://gauravghimire.be/API_modernCare/api/VerpleegsterGet.php')
         .then(response => {
@@ -88,13 +104,15 @@ const addVerpleegster = () => {
         Achternaam: achternaam.value,
         Telefoonnummer: telefoon.value,
         Email: email.value,
-        Specialiteit: specialiteit.value
+        Specialiteit: specialiteit.value,
+        IsAdmin: isAdmin.value
     })
         .then(response => {
             if (response.data.status === 'ok') {
                 console.log('Verpleegster added successfully:', response.data);
-                fetchVerpleegsters();
-                clearForm();
+                const VerpleegsterID = response.data.VerpleegsterID;
+                console.log(VerpleegsterID);
+                addUser(VerpleegsterID);
             } else {
                 console.error('Error adding verpleegster:', response.data);
             }
@@ -102,6 +120,26 @@ const addVerpleegster = () => {
         .catch(error => {
             console.error('Error adding verpleegster:', error);
         });
+};
+
+const addUser = (VerpleegsterID) => {
+  axios.post('https://gauravghimire.be/API_modernCare/api/UserAdd.php', {
+    username: username.value,
+    wachtwoord: wachtwoord.value,
+    VerpleegsterID: VerpleegsterID
+  })
+  .then(response => {
+    if (response.data.status === 'ok') {
+      console.log('User added successfully:', response.data);
+      fetchVerpleegsters();
+      clearForm();
+    } else {
+      console.error('Error adding user:', response.data);
+    }
+  })
+  .catch(error => {
+    console.error('Error adding user:', error);
+  });
 };
 
 const deleteVerpleegster = (verpleegsterID) => {
@@ -125,7 +163,9 @@ const clearForm = () => {
     telefoon.value = '';
     email.value = '';
     specialiteit.value = '';
-
+    isAdmin.value = 0;
+    username.value = '';
+    wachtwoord.value = ''
 };
 
 onMounted(() => {
