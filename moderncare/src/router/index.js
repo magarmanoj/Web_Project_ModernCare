@@ -38,6 +38,10 @@ const routes = [
         path: 'tabPatient',
         component: () => import('@/views/PatientPage.vue'),
       },
+      {
+        path: 'tabVerpleegster',
+        component: () => import('@/views/VerpleegsterPage.vue'),
+      }
     ]
   }
 ];
