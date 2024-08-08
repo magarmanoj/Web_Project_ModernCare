@@ -28,12 +28,6 @@
                         <ion-input label="Specialiteit" v-model="specialiteit"></ion-input>
                     </ion-item>
                     <ion-item>
-                        <ion-select label="Is Admin" v-model="isAdmin">
-                            <ion-select-option value="1">Ja</ion-select-option>
-                            <ion-select-option value="0">Nee</ion-select-option>
-                        </ion-select>
-                    </ion-item>
-                    <ion-item>
                         <ion-input label="Username" v-model="username"></ion-input>
                     </ion-item>
                     <ion-item>
@@ -75,8 +69,6 @@ import {
     IonInput,
     IonButton,
     IonList,
-    IonSelect,
-    IonSelectOption
 } from '@ionic/vue';
 
 const verpleegsters = ref([]);
@@ -85,7 +77,6 @@ const achternaam = ref('');
 const specialiteit = ref('');
 const telefoon = ref('');
 const email = ref('');
-const isAdmin = ref(0);
 const username = ref('');
 const wachtwoord = ref('');
 
@@ -106,7 +97,6 @@ const addVerpleegster = () => {
         Telefoonnummer: telefoon.value,
         Email: email.value,
         Specialiteit: specialiteit.value,
-        IsAdmin: isAdmin.value,
         username: username.value,
         wachtwoord: wachtwoord.value
     })
@@ -145,7 +135,6 @@ const clearForm = () => {
     telefoon.value = '';
     email.value = '';
     specialiteit.value = '';
-    isAdmin.value = 0;
     username.value = '';
     wachtwoord.value = ''
 };
