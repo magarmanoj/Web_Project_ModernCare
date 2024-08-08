@@ -20,6 +20,11 @@
           <ion-label>About</ion-label>
         </ion-tab-button>
 
+        <ion-tab-button tab="patient" href="/tabs/tabPatient">
+          <ion-icon aria-hidden="true" :icon="person" />
+          <ion-label>Patient</ion-label>
+        </ion-tab-button>
+
       </ion-tab-bar>
     </ion-tabs>
   </ion-page>
@@ -27,6 +32,6 @@
 
 <script setup>
 import { IonTabBar, IonTabButton, IonTabs, IonLabel, IonIcon, IonPage, IonRouterOutlet } from '@ionic/vue';
-import { desktop, listOutline, informationCircle, home } from 'ionicons/icons';
+import { desktop, listOutline, informationCircle, home, person } from 'ionicons/icons';
 
 </script>

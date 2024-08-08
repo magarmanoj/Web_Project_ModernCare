@@ -140,7 +140,7 @@ const WorkDone = (item, index) => {
   .then((response) => {
       console.log('API Response:', response.data);
       if (response.data.status === "ok") {
-          lijsten.value.splice(index, 1); // Remove item from the list
+          lijsten.value.splice(index, 1); 
           console.log('Item removed successfully');
       } else {
           console.log('Error updating item:', response.data);

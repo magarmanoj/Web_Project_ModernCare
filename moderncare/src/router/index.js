@@ -27,6 +27,10 @@ const routes = [
         path: 'tabLijsten',
         component: () => import('@/views/LijstenView.vue')
       },
+      {
+        path: 'tabPatient',
+        component: () => import('@/views/PatientPage.vue')
+      },
       // Choose one of the following based on your preference
       // Either '/tabLijsten'
       // {
