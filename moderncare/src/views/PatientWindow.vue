@@ -3,6 +3,9 @@
         <ion-header>
             <ion-toolbar>
                 <ion-title class="ion-text-center">Home</ion-title>
+                    <ion-button slot="end" @click="logout">
+                        <ion-icon slot="icon-only" :icon="logOutOutline"></ion-icon>
+                    </ion-button>
             </ion-toolbar>
         </ion-header>
 
@@ -49,14 +52,6 @@
                             <ion-grid class="homeGrid">
                                 <ion-row>
                                     <ion-col class="ion-text-center">
-                                        <ion-button @click="updateOngevalType('Laag')" class="oproepBtn" expand="block">
-                                            <font-awesome-icon :icon="['fas', 'restroom']" />
-                                            Laag
-                                        </ion-button>
-                                    </ion-col>
-                                </ion-row>
-                                <ion-row>
-                                    <ion-col class="ion-text-center">
                                         <ion-button @click="updateOngevalType('Hoog')" class="oproepBtn" expand="block">
                                             <font-awesome-icon :icon="['fas', 'circle-exclamation']" />
                                             Hoog
@@ -71,6 +66,14 @@
                                         </ion-button>
                                     </ion-col>
                                 </ion-row>
+                                <ion-row>
+                                    <ion-col class="ion-text-center">
+                                        <ion-button @click="updateOngevalType('Laag')" class="oproepBtn" expand="block">
+                                            <font-awesome-icon :icon="['fas', 'restroom']" />
+                                            Laag
+                                        </ion-button>
+                                    </ion-col>
+                                </ion-row>
                             </ion-grid>
                         </ion-card-content>
                         <ion-button @click="closePrioriteitModal">Close</ion-button>
@@ -82,15 +85,20 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import axios from 'axios';
+import { useRoute, useRouter  } from 'vue-router';
+
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonGrid, IonRow, IonCol, IonButton, IonModal, IonList, IonCard, IonCardHeader, IonLabel, IonItem, IonCardContent, IonIcon, IonCardTitle } from '@ionic/vue';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
-import { informationCircleOutline, alertCircleSharp } from 'ionicons/icons';
+import { informationCircleOutline, alertCircleSharp, logOutOutline } from 'ionicons/icons';
 
 library.add(fas);
+
+const route = useRoute();
+const router = useRouter();
 
 const patients = ref([]);
 const selectedPatient = ref(null);
@@ -152,6 +160,15 @@ const updateOngevalType = (prioriteit) => {
 onMounted(() => {
     fetchDetails();
 });
+
+watch(() => route.path, () => {
+    fetchDetails();
+});
+
+const logout = () => {
+  localStorage.removeItem('userData'); 
+  router.push('/tabs/tabLogin');
+};
 </script>
 
 <style>

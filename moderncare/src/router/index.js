@@ -32,15 +32,11 @@ const routes = [
       {
         path: 'tabLijsten',
         component: () => import('@/views/LijstenView.vue'),
-        meta: { requiresAuth: true }
       },
       {
         path: 'tabPatient',
-        component: () => import('@/views/PatientPage.vue'),
-      },
-      {
-        path: 'tabVerpleegster',
-        component: () => import('@/views/VerpleegsterPage.vue'),
+        component: () => import('@/views/AdminPage.vue'),
+        meta: { requiresAdmin: true } // Require admin role to access
       }
     ]
   }
@@ -50,16 +46,26 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes
 });
-// Global navigation guard for routes that require authentication
+
+// Global navigation guard for authentication and authorization
 router.beforeEach((to, from, next) => {
+  const userData = JSON.parse(localStorage.getItem('userData'));
+  
   if (to.matched.some(record => record.meta.requiresAuth)) {
-    if (!localStorage.getItem('userData')) {
+    if (!userData) {
       next('/tabs/tabLogin');  // Redirect to login if not authenticated
     } else {
       next();  // Proceed if authenticated
     }
+  } else if (to.matched.some(record => record.meta.requiresAdmin)) {
+    if (!userData || userData.IsAdmin != 1) {
+      alert('You do not have access to this page.'); // Alert for non-admin access
+      next(false);  // Redirect to a default page if not an admin
+    } else {
+      next();  // Proceed if the user is an admin
+    }
   } else {
-    next();  // Proceed for routes that do not require authentication
+    next();  // Proceed for routes that do not require authentication or specific roles
   }
 });
 export default router;

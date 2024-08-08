@@ -79,7 +79,6 @@ import {
   IonPage,
   IonContent,
   IonList,
-  IonButtons,
   IonButton,
   IonModal,
   IonCard,
