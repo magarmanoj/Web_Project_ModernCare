@@ -34,6 +34,10 @@ const routes = [
         component: () => import('@/views/LijstenView.vue'),
         meta: { requiresAuth: true }
       },
+      {
+        path: 'tabPatient',
+        component: () => import('@/views/PatientPage.vue'),
+      },
     ]
   }
 ];
