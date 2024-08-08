@@ -27,8 +27,8 @@ import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonLabel
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
-const username = ref('');
-const wachtwoord = ref('');
+const username = ref('test');
+const wachtwoord = ref('test');
 
 const handleLogin = () => {
     console.log('Attempting login with:', username.value, wachtwoord.value);
@@ -44,6 +44,9 @@ const handleLogin = () => {
             console.log('Response received:', response.data);
             if (response.data.status === 'ok') {
                 console.log('Login successful:', response.data.message);
+                console.log('User data to store:', response.data.user);  // Check what you're actually storing
+
+                localStorage.setItem('userData', JSON.stringify(response.data.user));
                 router.push('/tabs/tabLijsten'); // Use router directly
             } else {
                 console.log('Login failed:', response.data.error);
