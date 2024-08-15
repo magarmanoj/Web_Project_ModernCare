@@ -10,11 +10,11 @@ require 'inc/dbcon.php';
 require 'inc/base.php';
 
 // add projecten
-if (!$stmtproject = $conn->prepare("insert into OngevalType (Prioriteit) values (?)")) {
+if (!$stmtproject = $conn->prepare("Insert into OngevalType (PatiëntID, Prioriteit) values (?, ?)")) {
     die('{"error":"Prepared Statement failed on prepare","errNo":"' . json_encode($conn->errno) . '","mysqlError":"' . json_encode($conn->error) . '","status":"fail"}');
 }
 
-if (!$stmtproject->bind_param("s", htmlentities($postvars['Prioriteit']))) {
+if (!$stmtproject->bind_param("is", $postvars['PatiëntID'], $postvars['Prioriteit'])) {
     die('{"error":"Prepared Statement bind failed on bind","errNo":"' . json_encode($stmtproject->errno) . '","mysqlError":"' . json_encode($stmtproject->error) . '","status":"fail"}');
 }
 $stmtproject->execute();

@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from '@ionic/vue-router';
 import TabsPage from '../views/HomePage.vue';
-import LijstenView from '../views/LijstenView.vue';
 
 const routes = [
   {
@@ -21,23 +20,24 @@ const routes = [
       },
       {
         path: 'tabLogin',
-        component: () => import('@/views/LogIn.vue')
+        component: () => import('@/views/LogIn.vue'),
+        beforeEnter: (to, from, next) => {
+          if (localStorage.getItem('userData')) {
+            next('/tabs/tabLijsten'); 
+          } else {
+            next();
+          }
+        }
       },
       {
         path: 'tabLijsten',
-        component: () => import('@/views/LijstenView.vue')
+        component: () => import('@/views/LijstenView.vue'),
       },
-      // Choose one of the following based on your preference
-      // Either '/tabLijsten'
-      // {
-      //   path: 'tabLijsten',
-      //   component: () => import('@/views/LijstenView.vue')
-      // },
-      // Or '/LijstenView'
-      // {
-      //   path: 'LijstenView',
-      //   component: () => import('@/views/LijstenView.vue')
-      // },
+      {
+        path: 'tabPatient',
+        component: () => import('@/views/AdminPage.vue'),
+        meta: { requiresAdmin: true } // Require admin role to access
+      }
     ]
   }
 ];
@@ -47,4 +47,25 @@ const router = createRouter({
   routes
 });
 
+// Global navigation guard for authentication and authorization
+router.beforeEach((to, from, next) => {
+  const userData = JSON.parse(localStorage.getItem('userData'));
+  
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    if (!userData) {
+      next('/tabs/tabLogin');  // Redirect to login if not authenticated
+    } else {
+      next();  // Proceed if authenticated
+    }
+  } else if (to.matched.some(record => record.meta.requiresAdmin)) {
+    if (!userData || userData.IsAdmin != 1) {
+      alert('You do not have access to this page.'); // Alert for non-admin access
+      next(false);  // Redirect to a default page if not an admin
+    } else {
+      next();  // Proceed if the user is an admin
+    }
+  } else {
+    next();  // Proceed for routes that do not require authentication or specific roles
+  }
+});
 export default router;
