@@ -5,7 +5,7 @@
       <ion-tab-bar slot="bottom">
         <ion-tab-button tab="home" href="/tabs/tabHome">
           <ion-icon aria-hidden="true" :icon="home" />
-          <ion-label>Home</ion-label>
+          <ion-label>Patient</ion-label>
         </ion-tab-button>
 
         <ion-tab-button tab="login" href="/tabs/tabLogin">
@@ -14,13 +14,8 @@
         </ion-tab-button>
 
         <ion-tab-button tab="patient" href="/tabs/tabPatient">
-          <ion-icon aria-hidden="true" :icon="peopleOutline" />
-          <ion-label>Beheer</ion-label>
-        </ion-tab-button>
-
-        <ion-tab-button tab="database" href="/tabs/tabDatabase">
-          <ion-icon aria-hidden="true" :icon="folder" />
-          <ion-label>Database</ion-label>
+          <ion-icon aria-hidden="true" :icon="person" />
+          <ion-label>Patient</ion-label>
         </ion-tab-button>
 
         <ion-tab-button tab="about" href="/tabs/tabAbout">
@@ -34,5 +29,6 @@
 
 <script setup>
 import { IonTabBar, IonTabButton, IonTabs, IonLabel, IonIcon, IonPage, IonRouterOutlet } from '@ionic/vue';
-import { desktop, informationCircle, home, peopleOutline,folder } from 'ionicons/icons';
+import { desktop, informationCircle, home, person } from 'ionicons/icons';
+
 </script>
