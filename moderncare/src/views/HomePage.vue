@@ -8,14 +8,21 @@
           <ion-label>Patient</ion-label>
         </ion-tab-button>
 
-        <ion-tab-button tab="login" href="/tabs/tabLogin">
+        <!-- LogIn tab, only visible when the user is not logged in -->
+        <ion-tab-button v-if="!isLoggedIn" tab="login" href="/tabs/tabLogin">
           <ion-icon aria-hidden="true" :icon="desktop" />
           <ion-label>LogIn</ion-label>
         </ion-tab-button>
 
-        <ion-tab-button tab="patient" href="/tabs/tabPatient">
+        <!-- Lijsten tab, only visible when the user is logged in -->
+        <ion-tab-button v-if="isLoggedIn" tab="lijsten" href="/tabs/tabLijsten">
+          <ion-icon aria-hidden="true" :icon="list" />
+          <ion-label>Lijsten</ion-label>
+        </ion-tab-button>
+
+        <ion-tab-button tab="admin" href="/tabs/tabAdmin">
           <ion-icon aria-hidden="true" :icon="person" />
-          <ion-label>Patient</ion-label>
+          <ion-label>Admin</ion-label>
         </ion-tab-button>
 
         <ion-tab-button tab="about" href="/tabs/tabAbout">
@@ -29,6 +36,15 @@
 
 <script setup>
 import { IonTabBar, IonTabButton, IonTabs, IonLabel, IonIcon, IonPage, IonRouterOutlet } from '@ionic/vue';
-import { desktop, informationCircle, home, person } from 'ionicons/icons';
+import { desktop, informationCircle, home, person, list } from 'ionicons/icons';
+import { ref, onMounted } from 'vue';
+
+// Reactive variable to track login status
+const isLoggedIn = ref(false);
+
+onMounted(() => {
+  const userData = JSON.parse(localStorage.getItem('userData'));
+  isLoggedIn.value = !!userData; // Set to true if userData exists, otherwise false
+});
 
 </script>

@@ -48,6 +48,10 @@ const handleLogin = () => {
 
                 localStorage.setItem('userData', JSON.stringify(response.data.user));
                 router.push('/tabs/tabLijsten'); // Use router directly
+                // Optionally force a page reload to ensure UI updates
+            setTimeout(() => {
+                window.location.reload();
+            }, 100);  // Slight delay to ensure redirection occurs
             } else {
                 console.log('Login failed:', response.data.error);
             }

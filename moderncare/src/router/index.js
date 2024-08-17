@@ -34,7 +34,7 @@ const routes = [
         component: () => import('@/views/LijstenView.vue'),
       },
       {
-        path: 'tabPatient',
+        path: 'tabAdmin',
         component: () => import('@/views/AdminPage.vue'),
         meta: { requiresAdmin: true } // Require admin role to access
       }

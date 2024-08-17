@@ -3,9 +3,9 @@
     <ion-header>
       <ion-toolbar>
         <ion-title>Lijsten</ion-title>
-          <ion-button slot="end" @click="logout">
-            <ion-icon slot="icon-only" :icon="logOutOutline"></ion-icon>
-          </ion-button>
+        <ion-button slot="end" @click="logout">
+          <ion-icon slot="icon-only" :icon="logOutOutline"></ion-icon>
+        </ion-button>
       </ion-toolbar>
     </ion-header>
 
@@ -59,9 +59,9 @@
             <p>Patient Voornaam: {{ selectedItem.PatientVoornaam }}</p>
             <p>Patient Achternaam: {{ selectedItem.PatientAchternaam }}</p>
             <p>Leeftijd: {{ selectedItem.Leeftijd }}</p>
-            <p>Gelsacht: {{ selectedItem.Geslacht }}</p>
+            <p>Geslacht: {{ selectedItem.Geslacht }}</p>
             <p>Opname Datum: {{ selectedItem.OpnameDatum }}</p>
-            <p>Ontsag Datum: {{ selectedItem.OntslagDatum }}</p>
+            <p>Ontslag Datum: {{ selectedItem.OntslagDatum }}</p>
           </ion-card-content>
           <ion-button @click="closeModal">Close</ion-button>
         </ion-card>
@@ -72,7 +72,7 @@
 
 <script setup>
 import { ref, onMounted, watch } from 'vue';
-import { useRoute,useRouter  } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
 import { informationCircleOutline, syncOutline, checkmarkOutline, logOutOutline } from 'ionicons/icons';
 import {
@@ -90,7 +90,6 @@ import {
   IonTitle,
   IonToolbar
 } from '@ionic/vue';
-
 
 const route = useRoute();
 const router = useRouter();
@@ -119,8 +118,8 @@ const fetchDetails = () => {
 };
 
 const showDetails = (item) => {
-selectedItem.value = item;
-isModalOpen.value = true;
+  selectedItem.value = item;
+  isModalOpen.value = true;
 };
 
 const closeModal = () => {
@@ -137,10 +136,7 @@ const WorkDone = (item, index) => {
     alert('You can only complete tasks you have accepted.');
     return;
   }
-  console.log(item.VerzoekID);
-  console.log(item.Status);
-  console.log(item.OngevalID);
-  
+
   item.Status = 0;
   
   axios.post('https://gauravghimire.be/API_modernCare/api/UpdateStatus.php', {
@@ -162,44 +158,41 @@ const WorkDone = (item, index) => {
   });
 };
 
-
 const WorkInProgress = (item) => {
-    console.log(item.OngevalID);
-    console.log(item.KamerID);
-    console.log(item.Status);
+  const userData = JSON.parse(localStorage.getItem('userData'));
 
-    const userData = JSON.parse(localStorage.getItem('userData'));
-
-    console.log(userData);
-    if (!userData || item.Status == 1) {
-      return; 
-    } else {
-      item.Status = 1;  
-      axios.post('https://gauravghimire.be/API_modernCare/api/VerzoekNotitiesAdd.php', {
-          KamerID: item.KamerID,
-          Status: item.Status,
-          OngevalID: item.OngevalID,
-          VerpleegsterID: userData.VerpleegsterID
-      })
-      .then((response) => {
-          console.log('VerzoekNotatie added:', response.data);
-          if (response.data.status !== "ok") {
-              console.log('Error adding VerzoekNotatie:', response.data);
-          } else {
-            item.VerpleegsterVoornaam = userData.VerpleegsterID.Voornaam; 
-            item.VerpleegsterAchternaam = userData.VerpleegsterID.PatientAchternaam;
-            fetchDetails();
-          }
-      })
-      .catch((error) => {
-          console.log('Error:', error.response ? error.response.data : error.message);
-      });
-    }
+  if (!userData || item.Status == 1) {
+    return; 
+  } else {
+    item.Status = 1;  
+    axios.post('https://gauravghimire.be/API_modernCare/api/VerzoekNotitiesAdd.php', {
+        KamerID: item.KamerID,
+        Status: item.Status,
+        OngevalID: item.OngevalID,
+        VerpleegsterID: userData.VerpleegsterID
+    })
+    .then((response) => {
+        console.log('VerzoekNotatie added:', response.data);
+        if (response.data.status !== "ok") {
+            console.log('Error adding VerzoekNotatie:', response.data);
+        } else {
+          item.VerpleegsterVoornaam = userData.Voornaam; 
+          item.VerpleegsterAchternaam = userData.Achternaam;
+          fetchDetails();
+        }
+    })
+    .catch((error) => {
+        console.log('Error:', error.response ? error.response.data : error.message);
+    });
+  }
 };
 
 const logout = () => {
-  localStorage.removeItem('userData'); 
-  router.push('/tabs/tabLogin');
+  localStorage.removeItem('userData');  // Clear the user data from localStorage
+  router.push('/tabs/tabLogin');  // Redirect to the login tab
+  setTimeout(() => {
+    window.location.reload();  // Force a page reload to ensure all state is reset
+  }, 100);  // Delay slightly to ensure the router push completes before the reload
 };
 
 onMounted(() => {
@@ -210,7 +203,6 @@ watch(() => route.path, () => {
   fetchDetails();
 });
 </script>
-
 
 <style scoped>
 .red-border {
