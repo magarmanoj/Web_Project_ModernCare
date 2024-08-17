@@ -8,8 +8,7 @@ define ('INDEX', true);
 require 'inc/dbcon.php';
 require 'inc/base.php';
 
-$sql = "SELECT p.PatiëntID, p.Voornaam AS PatientVoornaam, p.Achternaam AS PatientAchternaam,
-               k.BlokNaam, k.KamerNummer, k.Verdieping
+$sql = "SELECT p.*, k.BlokNaam, k.KamerNummer, k.Verdieping
         FROM Patiënten p
         JOIN Kamer_Patiënt kp ON p.PatiëntID = kp.PatiëntID
         JOIN Kamers k ON kp.KamerID = k.KamerID";

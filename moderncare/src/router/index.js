@@ -37,6 +37,15 @@ const routes = [
         path: 'tabAdmin',
         component: () => import('@/views/AdminPage.vue'),
         meta: { requiresAdmin: true } // Require admin role to access
+      },
+      {
+        path: 'tabDatabase',
+        component: () => import('@/views/Database.vue'),
+        meta: { requiresAdmin: true } // Require login to access
+      },
+      {
+        path: 'tabAbout',
+        component: () => import('@/views/About.vue')
       }
     ]
   }
@@ -68,4 +77,5 @@ router.beforeEach((to, from, next) => {
     next();  // Proceed for routes that do not require authentication or specific roles
   }
 });
+
 export default router;

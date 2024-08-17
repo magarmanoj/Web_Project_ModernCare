@@ -167,6 +167,8 @@ onMounted(() => {
 watch(() => route.path, () => {
     fetchDetails();
 });
+
+
 const logout = () => {
   localStorage.removeItem('userData');  
   router.push('/tabs/tabLogin');  

@@ -26,6 +26,12 @@
           <ion-label>Admin</ion-label>
         </ion-tab-button>
 
+        <!-- Database tab, only visible when the user is logged in -->
+        <ion-tab-button v-if="isLoggedIn" tab="database" href="/tabs/tabDatabase">
+          <ion-icon aria-hidden="true" :icon="list" />
+          <ion-label>Database</ion-label>
+        </ion-tab-button>
+
         <ion-tab-button tab="about" href="/tabs/tabAbout">
           <ion-icon aria-hidden="true" :icon="informationCircle" />
           <ion-label>About</ion-label>
