@@ -47,11 +47,11 @@ const handleLogin = () => {
                 console.log('User data to store:', response.data.user);  // Check what you're actually storing
 
                 localStorage.setItem('userData', JSON.stringify(response.data.user));
-                router.push('/tabs/tabLijsten'); // Use router directly
-                // Optionally force a page reload to ensure UI updates
+                router.push('/tabs/tabLijsten'); 
+               
             setTimeout(() => {
                 window.location.reload();
-            }, 100);  // Slight delay to ensure redirection occurs
+            }, 100); 
             } else {
                 console.log('Login failed:', response.data.error);
             }

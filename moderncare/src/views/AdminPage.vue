@@ -370,11 +370,11 @@ updateKamerNummers();
 });
 
 const logout = () => {
-  localStorage.removeItem('userData');  // Clear the user data from localStorage
-  router.push('/tabs/tabLogin');  // Redirect to the login tab
+  localStorage.removeItem('userData');  
+  router.push('/tabs/tabLogin');  
   setTimeout(() => {
-    window.location.reload();  // Force a page reload to ensure all state is reset
-  }, 100);  // Delay slightly to ensure the router push completes before the reload
+    window.location.reload();  
+  }, 100);  
 };
 
 </script>

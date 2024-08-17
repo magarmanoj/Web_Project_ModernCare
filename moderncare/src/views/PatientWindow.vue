@@ -3,9 +3,10 @@
         <ion-header>
             <ion-toolbar>
                 <ion-title class="ion-text-center">Home</ion-title>
-                    <ion-button slot="end" @click="logout">
-                        <ion-icon slot="icon-only" :icon="logOutOutline"></ion-icon>
-                    </ion-button>
+                <!-- Show logout button only if the user is logged in -->
+                <ion-button v-if="isLoggedIn" slot="end" @click="logout">
+                    <ion-icon slot="icon-only" :icon="logOutOutline"></ion-icon>
+                </ion-button>
             </ion-toolbar>
         </ion-header>
 
@@ -42,7 +43,7 @@
                 </ion-content>
             </ion-modal>
 
-            <ion-modal :is-open="isPrioriteitModalOpen" :backdropDismiss="false" >
+            <ion-modal :is-open="isPrioriteitModalOpen" :backdropDismiss="false">
                 <ion-content>
                     <ion-card>
                         <ion-card-header>
@@ -104,6 +105,7 @@ const patients = ref([]);
 const selectedPatient = ref(null);
 const isModalOpen = ref(false);
 const isPrioriteitModalOpen = ref(false);
+const isLoggedIn = ref(false);
 
 const fetchDetails = () => {
     axios.post('https://gauravghimire.be/API_modernCare/api/GetPatientDetails.php')
@@ -158,20 +160,21 @@ const updateOngevalType = (prioriteit) => {
 };
 
 onMounted(() => {
+    isLoggedIn.value = !!localStorage.getItem('userData'); // Check if user is logged in
     fetchDetails();
 });
 
 watch(() => route.path, () => {
     fetchDetails();
 });
-
 const logout = () => {
-  localStorage.removeItem('userData');  // Clear the user data from localStorage
-  router.push('/tabs/tabLogin');  // Redirect to the login tab
+  localStorage.removeItem('userData');  
+  router.push('/tabs/tabLogin');  
   setTimeout(() => {
-    window.location.reload();  // Force a page reload to ensure all state is reset
-  }, 100);  // Delay slightly to ensure the router push completes before the reload
+    window.location.reload();  
+  }, 100);  
 };
+
 
 </script>
 

@@ -20,7 +20,8 @@
           <ion-label>Lijsten</ion-label>
         </ion-tab-button>
 
-        <ion-tab-button tab="admin" href="/tabs/tabAdmin">
+        <!-- Admin tab, only visible if the user is an admin -->
+        <ion-tab-button v-if="isAdmin" tab="admin" href="/tabs/tabAdmin">
           <ion-icon aria-hidden="true" :icon="person" />
           <ion-label>Admin</ion-label>
         </ion-tab-button>
@@ -39,12 +40,17 @@ import { IonTabBar, IonTabButton, IonTabs, IonLabel, IonIcon, IonPage, IonRouter
 import { desktop, informationCircle, home, person, list } from 'ionicons/icons';
 import { ref, onMounted } from 'vue';
 
-// Reactive variable to track login status
+// Reactive variables to track login status and admin status
 const isLoggedIn = ref(false);
+const isAdmin = ref(false);
 
 onMounted(() => {
   const userData = JSON.parse(localStorage.getItem('userData'));
   isLoggedIn.value = !!userData; // Set to true if userData exists, otherwise false
-});
 
+  // Check if the user is an admin
+  if (userData && userData.IsAdmin === 1) {
+    isAdmin.value = true;
+  }
+});
 </script>
