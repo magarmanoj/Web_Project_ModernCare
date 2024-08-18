@@ -46,8 +46,8 @@
                   </ion-col>
                   <ion-col>
                     <ion-select v-if="patient.isEditing" v-model="patient.Geslacht">
-                      <ion-select-option value="M">Man</ion-select-option>
-                      <ion-select-option value="V">Vrouw</ion-select-option>
+                      <ion-select-option value="Man">Man</ion-select-option>
+                      <ion-select-option value="Vrouw">Vrouw</ion-select-option>
                     </ion-select>
                     <span v-else>{{ patient.Geslacht }}</span>
                   </ion-col>
@@ -122,7 +122,7 @@
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonGrid, IonRow, IonCol, IonInput, IonButton, IonIcon } from '@ionic/vue';
+import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonGrid, IonRow, IonCol, IonInput, IonButton, IonIcon, IonCardContent, IonCard, IonCardHeader,IonCardTitle, IonSelect, IonSelectOption } from '@ionic/vue';
 import { logOutOutline } from 'ionicons/icons';
 
 const router = useRouter();
@@ -183,8 +183,9 @@ const savePatient = (patient) => {
     KamerNummer: patient.KamerNummer
   })
     .then(response => {
-      if (response.data && response.data.status === 'ok') {
+      if (response.data && response.data.code === 1) {
         patient.isEditing = false;
+        console.log('Patient edited successfully');
       } else {
         console.error('Error updating patient:', response);
       }
