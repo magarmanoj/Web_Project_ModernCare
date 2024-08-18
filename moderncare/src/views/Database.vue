@@ -72,8 +72,10 @@
                     <span v-else>{{ patient.KamerNummer }}</span>
                   </ion-col>
                   <ion-col>
-                    <ion-button v-if="patient.isEditing" color="success" @click="savePatient(patient)">Opslaan</ion-button>
-                    <ion-button v-if="patient.isEditing" color="medium" @click="cancelEdit(patient)">Annuleren</ion-button>
+                    <ion-button v-if="patient.isEditing" color="success"
+                      @click="savePatient(patient)">Opslaan</ion-button>
+                    <ion-button v-if="patient.isEditing" color="medium"
+                      @click="cancelEdit(patient)">Annuleren</ion-button>
                     <ion-button v-else color="primary" @click="editPatient(patient)">Bewerken</ion-button>
                     <ion-button color="danger" @click="deletePatient(patient.PatiëntID)">Verwijder</ion-button>
                   </ion-col>
@@ -100,15 +102,41 @@
                   <ion-col><strong>Acties</strong></ion-col>
                 </ion-row>
                 <ion-row v-for="verpleegster in verpleegsters" :key="verpleegster.VerpleegsterID">
-                  <ion-col>{{ verpleegster.Voornaam }}</ion-col>
-                  <ion-col>{{ verpleegster.Achternaam }}</ion-col>
-                  <ion-col>{{ verpleegster.Specialiteit }}</ion-col>
-                  <ion-col>{{ verpleegster.Email }}</ion-col>
-                  <ion-col>{{ verpleegster.Telefoonnummer }}</ion-col>
                   <ion-col>
-                    <ion-button color="danger" @click="deleteVerpleegster(verpleegster.VerpleegsterID)">Verwijder</ion-button>
+                    <ion-input v-if="verpleegster.isEditing" v-model="verpleegster.Voornaam" placeholder="Voornaam" />
+                    <span v-else>{{ verpleegster.Voornaam }}</span>
+                  </ion-col>
+                  <ion-col>
+                    <ion-input v-if="verpleegster.isEditing" v-model="verpleegster.Achternaam"
+                      placeholder="Achternaam" />
+                    <span v-else>{{ verpleegster.Achternaam }}</span>
+                  </ion-col>
+                  <ion-col>
+                    <ion-input v-if="verpleegster.isEditing" v-model="verpleegster.Specialiteit"
+                      placeholder="Specialiteit" />
+                    <span v-else>{{ verpleegster.Specialiteit }}</span>
+                  </ion-col>
+                  <ion-col>
+                    <ion-input v-if="verpleegster.isEditing" v-model="verpleegster.Email" placeholder="Email" />
+                    <span v-else>{{ verpleegster.Email }}</span>
+                  </ion-col>
+                  <ion-col>
+                    <ion-input v-if="verpleegster.isEditing" v-model="verpleegster.Telefoonnummer"
+                      placeholder="Telefoonnummer" />
+                    <span v-else>{{ verpleegster.Telefoonnummer }}</span>
+                  </ion-col>
+                  <ion-col>
+                    <ion-button v-if="verpleegster.isEditing" color="success"
+                      @click="saveVerpleegster(verpleegster)">Opslaan</ion-button>
+                    <ion-button v-if="verpleegster.isEditing" color="medium"
+                      @click="cancelEditVerpleegster(verpleegster)">Annuleren</ion-button>
+                    <ion-button v-else color="primary" @click="editVerpleegster(verpleegster)">Bewerken</ion-button>
+                    <ion-button color="danger"
+                      @click="deleteVerpleegster(verpleegster.VerpleegsterID)">Verwijder</ion-button>
                   </ion-col>
                 </ion-row>
+
+
               </ion-grid>
             </ion-card-content>
           </ion-card>
@@ -122,7 +150,7 @@
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonGrid, IonRow, IonCol, IonInput, IonButton, IonIcon, IonCardContent, IonCard, IonCardHeader,IonCardTitle, IonSelect, IonSelectOption } from '@ionic/vue';
+import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonGrid, IonRow, IonCol, IonInput, IonButton, IonIcon, IonCardContent, IonCard, IonCardHeader, IonCardTitle, IonSelect, IonSelectOption } from '@ionic/vue';
 import { logOutOutline } from 'ionicons/icons';
 
 const router = useRouter();
@@ -168,32 +196,7 @@ const editPatient = (patient) => {
   patient.isEditing = true;
 };
 
-// Save patient
-const savePatient = (patient) => {
-  axios.post('https://gauravghimire.be/API_modernCare/api/UpdatePatientDetails.php', {
-    PatiëntID: patient.PatiëntID,
-    Voornaam: patient.Voornaam,
-    Achternaam: patient.Achternaam,
-    Leeftijd: patient.Leeftijd,
-    Geslacht: patient.Geslacht,
-    OpnameDatum: patient.OpnameDatum,
-    OntslagDatum: patient.OntslagDatum,
-    BlokNaam: patient.BlokNaam,
-    Verdieping: patient.Verdieping,
-    KamerNummer: patient.KamerNummer
-  })
-    .then(response => {
-      if (response.data && response.data.code === 1) {
-        patient.isEditing = false;
-        console.log('Patient edited successfully');
-      } else {
-        console.error('Error updating patient:', response);
-      }
-    })
-    .catch(error => {
-      console.error('Error updating patient:', error);
-    });
-};
+
 
 // Cancel editing
 const cancelEdit = (patient) => {
@@ -230,6 +233,73 @@ const deleteVerpleegster = (verpleegsterID) => {
       console.error('Error deleting verpleegster:', error);
     });
 };
+
+// Save patient
+const savePatient = (patient) => {
+  axios.post('https://gauravghimire.be/API_modernCare/api/UpdatePatientDetails.php', {
+    PatiëntID: patient.PatiëntID,
+    Voornaam: patient.Voornaam,
+    Achternaam: patient.Achternaam,
+    Leeftijd: patient.Leeftijd,
+    Geslacht: patient.Geslacht,
+    OpnameDatum: patient.OpnameDatum,
+    OntslagDatum: patient.OntslagDatum,
+    BlokNaam: patient.BlokNaam,
+    Verdieping: patient.Verdieping,
+    KamerNummer: patient.KamerNummer
+  })
+    .then(response => {
+      if (response.data && response.data.code === 1) {
+        patient.isEditing = false;
+        console.log('Patient edited successfully');
+      } else {
+        console.error('Error updating patient:', response);
+      }
+    })
+    .catch(error => {
+      console.error('Error updating patient:', error);
+    });
+};
+// Edit verpleegster
+const editVerpleegster = (verpleegster) => {
+  verpleegster.isEditing = true;
+};
+
+// Save verpleegster
+const saveVerpleegster = (verpleegster) => {
+  axios.post('https://gauravghimire.be/API_modernCare/api/UpdateVerpleegsterDetails.php', {
+    VerpleegsterID: verpleegster.VerpleegsterID,
+    Voornaam: verpleegster.Voornaam,
+    Achternaam: verpleegster.Achternaam,
+    Specialiteit: verpleegster.Specialiteit,
+    Email: verpleegster.Email,
+    Telefoonnummer: verpleegster.Telefoonnummer
+  })
+    .then(response => {
+      console.log('Server response:', response.data);  // Log the raw response
+      if (response.data.code === 1) {  // Check for success code
+        verpleegster.isEditing = false;  // Exit edit mode on success
+        console.log('Verpleegster edited successfully');
+      } else {
+        console.error('Error updating verpleegster:', response.data);
+      }
+    })
+    .catch(error => {
+      console.error('Error updating verpleegster:', error);
+    });
+};
+
+
+
+// Cancel editing verpleegster
+const cancelEditVerpleegster = (verpleegster) => {
+  verpleegster.isEditing = false;
+  fetchVerpleegsters(); // Refresh data to revert changes
+};
+
+
+
+
 
 // Initial data fetch on mount
 onMounted(() => {
