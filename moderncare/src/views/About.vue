@@ -3,6 +3,10 @@
       <ion-header>
         <ion-toolbar>
           <ion-title class="ion-text-center">Over deze App</ion-title>
+          <!-- Show logout button only if the user is logged in -->
+          <ion-button v-if="isLoggedIn" slot="end" @click="logout">
+            <ion-icon slot="icon-only" :icon="logOutOutline"></ion-icon>
+          </ion-button>
         </ion-toolbar>
       </ion-header>
   
@@ -46,11 +50,31 @@
   </template>
   
   <script setup>
-  import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonGrid, IonRow, IonCol, IonImg } from '@ionic/vue';
+  import { ref, onMounted } from 'vue';
+  import { useRouter } from 'vue-router';
+  import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonGrid, IonRow, IonCol, IonImg, IonButton, IonIcon } from '@ionic/vue';
+  import { logOutOutline } from 'ionicons/icons';
   
   const prashantImg = 'https://via.placeholder.com/200';
   const manojImg = 'https://via.placeholder.com/200';
   const gauravImg = 'https://via.placeholder.com/200';
+  
+  const router = useRouter();
+  const isLoggedIn = ref(false);
+  
+  // Check if the user is logged in
+  onMounted(() => {
+    isLoggedIn.value = !!localStorage.getItem('userData');
+  });
+  
+  // Logout function
+  const logout = () => {
+    localStorage.removeItem('userData');
+    router.push('/tabs/tabLogin');
+    setTimeout(() => {
+      window.location.reload();
+    }, 100);
+  };
   </script>
   
   <style scoped>
