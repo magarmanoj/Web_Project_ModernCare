@@ -14,7 +14,7 @@
             <ion-list>
                 <ion-item v-for="(patient, index) in patients" :key="index">
                     <ion-label>
-                        <h2>{{ patient.PatientVoornaam }} {{ patient.PatientAchternaam }}</h2>
+                        <h2>{{ patient.Voornaam }} {{ patient.Achternaam }}</h2>
                     </ion-label>
                     <ion-button @click="showKamerDetails(patient)">
                         <ion-icon slot="start" :icon="informationCircleOutline"></ion-icon>
