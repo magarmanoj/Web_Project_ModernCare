@@ -175,6 +175,7 @@ const fetchVerpleegsters = () => {
     });
 };
 
+
 const addVerpleegster = () => {
   axios.post('https://gauravghimire.be/API_modernCare/api/VerpleegsterAdd.php', {
     Voornaam: verpleegstervoornaam.value,
@@ -190,6 +191,7 @@ const addVerpleegster = () => {
         console.log('Verpleegster and User added successfully:', response.data);
         fetchVerpleegsters();
         clearFormVerpleegster();
+        router.push('/tabs/tabDatabase'); // Navigate to Database.vue
       } else {
         console.error('Error adding Verpleegster and User:', response.data);
       }
@@ -263,7 +265,7 @@ const addPatient = () => {
   const formattedOpnameDatum = new Date(opnameDatum.value).toISOString();
   const formattedOntslagDatum = new Date(ontslagDatum.value).toISOString();
 
-  // Fetch KamerID aan de hand van BlokNaam, KamerNummer, and Verdieping
+  // Fetch KamerID based on BlokNaam, KamerNummer, and Verdieping
   const kamer = kamers.value.find(k => k.BlokNaam === blokNaam.value && k.KamerNummer === kamerNummer.value && k.Verdieping === verdieping.value);
   if (kamer) {
     const KamerID = kamer.KamerID;
@@ -281,6 +283,7 @@ const addPatient = () => {
         if (response.data.status === 'ok') {
           fetchPatients();
           clearForm();
+          router.push('/tabs/tabDatabase'); // Navigate to Database.vue
         } else {
           console.error('Error adding patient:', response.data);
         }
@@ -292,6 +295,7 @@ const addPatient = () => {
     console.error('Error finding KamerID');
   }
 };
+
 
 const clearForm = () => {
   voornaam.value = '';
