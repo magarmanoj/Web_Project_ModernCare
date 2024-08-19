@@ -147,13 +147,14 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
-import { useRouter } from 'vue-router';
+import { ref, onMounted, watch } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
 import axios from 'axios';
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonGrid, IonRow, IonCol, IonInput, IonButton, IonIcon, IonCardContent, IonCard, IonCardHeader, IonCardTitle, IonSelect, IonSelectOption } from '@ionic/vue';
 import { logOutOutline } from 'ionicons/icons';
 
 const router = useRouter();
+const route = useRoute();
 
 const patients = ref([]);
 const verpleegsters = ref([]);
@@ -195,8 +196,6 @@ const fetchVerpleegsters = () => {
 const editPatient = (patient) => {
   patient.isEditing = true;
 };
-
-
 
 // Cancel editing
 const cancelEdit = (patient) => {
@@ -260,6 +259,7 @@ const savePatient = (patient) => {
       console.error('Error updating patient:', error);
     });
 };
+
 // Edit verpleegster
 const editVerpleegster = (verpleegster) => {
   verpleegster.isEditing = true;
@@ -289,23 +289,26 @@ const saveVerpleegster = (verpleegster) => {
     });
 };
 
-
-
 // Cancel editing verpleegster
 const cancelEditVerpleegster = (verpleegster) => {
   verpleegster.isEditing = false;
   fetchVerpleegsters(); // Refresh data to revert changes
 };
 
-
-
-
-
 // Initial data fetch on mount
 onMounted(() => {
   fetchPatients();
   fetchVerpleegsters();
 });
+
+// Watch for route changes and refetch data
+watch(
+  () => route.path,
+  () => {
+    fetchPatients();
+    fetchVerpleegsters();
+  }
+);
 
 // Logout function
 const logout = () => {
@@ -316,15 +319,3 @@ const logout = () => {
   }, 100);
 };
 </script>
-
-<style scoped>
-.container {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.table-section {
-  margin-bottom: 20px;
-}
-</style>

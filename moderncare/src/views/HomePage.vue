@@ -44,11 +44,13 @@
 <script setup>
 import { IonTabBar, IonTabButton, IonTabs, IonLabel, IonIcon, IonPage, IonRouterOutlet } from '@ionic/vue';
 import { desktop, informationCircle, home, person, list } from 'ionicons/icons';
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
+import { useRouter } from 'vue-router';
 
 // Reactive variables to track login status and admin status
 const isLoggedIn = ref(false);
 const isAdmin = ref(false);
+const router = useRouter();
 
 onMounted(() => {
   const userData = JSON.parse(localStorage.getItem('userData'));
@@ -59,4 +61,7 @@ onMounted(() => {
     isAdmin.value = true;
   }
 });
+
+
 </script>
+

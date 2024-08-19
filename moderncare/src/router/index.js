@@ -41,7 +41,7 @@ const routes = [
       {
         path: 'tabDatabase',
         component: () => import('@/views/Database.vue'),
-        meta: { requiresAdmin: true } // Require login to access
+        meta: { requiresAdmin: true }
       },
       {
         path: 'tabAbout',
@@ -69,7 +69,7 @@ router.beforeEach((to, from, next) => {
   } else if (to.matched.some(record => record.meta.requiresAdmin)) {
     if (!userData || userData.IsAdmin != 1) {
       alert('You do not have access to this page.'); // Alert for non-admin access
-      next(false);  // Redirect to a default page if not an admin
+      next(false);  // Prevent access to the page
     } else {
       next();  // Proceed if the user is an admin
     }
