@@ -147,13 +147,14 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
-import { useRouter } from 'vue-router';
+import { ref, onMounted, watch } from 'vue';
+import { useRouter, useRoute} from 'vue-router';
 import axios from 'axios';
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonGrid, IonRow, IonCol, IonInput, IonButton, IonIcon, IonCardContent, IonCard, IonCardHeader, IonCardTitle, IonSelect, IonSelectOption } from '@ionic/vue';
 import { logOutOutline } from 'ionicons/icons';
 
 const router = useRouter();
+const route = useRoute();
 
 const patients = ref([]);
 const verpleegsters = ref([]);
@@ -182,6 +183,7 @@ const fetchVerpleegsters = () => {
     .then(response => {
       if (response.data && response.data.data) {
         verpleegsters.value = response.data.data;
+        console.log(response.data);
       } else {
         console.error('Error: Unexpected response format', response);
       }
@@ -303,6 +305,11 @@ const cancelEditVerpleegster = (verpleegster) => {
 
 // Initial data fetch on mount
 onMounted(() => {
+  fetchPatients();
+  fetchVerpleegsters();
+});
+
+watch(() => route.path, () => {
   fetchPatients();
   fetchVerpleegsters();
 });
