@@ -48,10 +48,11 @@
   <script setup>
   import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonGrid, IonRow, IonCol, IonImg } from '@ionic/vue';
   
-  const prashantImg = 'https://via.placeholder.com/200';
-  const manojImg = 'https://via.placeholder.com/200';
-  const gauravImg = 'https://via.placeholder.com/200';
-  </script>
+  import gauravImg from '@/img/gaurav.jpeg';
+  import prashantImg from '@/img/prashant.png';
+  import manojImg from '@/img/manoj.jpeg';
+
+</script>
   
   <style scoped>
   .full-height {
