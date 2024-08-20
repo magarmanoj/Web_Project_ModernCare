@@ -339,12 +339,19 @@ const logout = () => {
 <style scoped>
 .container {
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  flex-direction: column; /* Stack sections vertically on small screens */
+  gap: 20px; /* Space between sections */
 }
 
 .management-section {
+  margin: 0;
   flex: 1;
-  margin: 0 10px;
+}
+
+@media (min-width: 768px) {
+  .container {
+    flex-direction: row; /* Stack sections horizontally on larger screens */
+    gap: 20px; /* Space between sections */
+  }
 }
 </style>

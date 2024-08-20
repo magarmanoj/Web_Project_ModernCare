@@ -55,27 +55,11 @@
   import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonGrid, IonRow, IonCol, IonImg, IonButton, IonIcon } from '@ionic/vue';
   import { logOutOutline } from 'ionicons/icons';
   
-  const prashantImg = 'https://via.placeholder.com/200';
-  const manojImg = 'https://via.placeholder.com/200';
-  const gauravImg = 'https://via.placeholder.com/200';
-  
-  const router = useRouter();
-  const isLoggedIn = ref(false);
-  
-  // Check if the user is logged in
-  onMounted(() => {
-    isLoggedIn.value = !!localStorage.getItem('userData');
-  });
-  
-  // Logout function
-  const logout = () => {
-    localStorage.removeItem('userData');
-    router.push('/tabs/tabLogin');
-    setTimeout(() => {
-      window.location.reload();
-    }, 100);
-  };
-  </script>
+  import gauravImg from '@/img/gaurav.jpeg';
+  import prashantImg from '@/img/prashant.png';
+  import manojImg from '@/img/manoj.jpeg';
+
+</script>
   
   <style scoped>
   .full-height {

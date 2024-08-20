@@ -18,8 +18,8 @@
               <ion-card-title>Patiënten</ion-card-title>
             </ion-card-header>
             <ion-card-content>
-              <ion-grid>
-                <ion-row>
+              <ion-grid class="patient-grid">
+                <ion-row class="table-header">
                   <ion-col><strong>Voornaam</strong></ion-col>
                   <ion-col><strong>Achternaam</strong></ion-col>
                   <ion-col><strong>Leeftijd</strong></ion-col>
@@ -33,51 +33,62 @@
                 </ion-row>
                 <ion-row v-for="(patient, index) in patients" :key="patient.PatiëntID">
                   <ion-col>
-                    <ion-input v-if="patient.isEditing" v-model="patient.Voornaam" placeholder="Voornaam" />
-                    <span v-else>{{ patient.Voornaam }}</span>
+                    <span class="mobile-label">Voornaam:</span>
+                    <span v-if="!patient.isEditing">{{ patient.Voornaam }}</span>
+                    <ion-input v-else v-model="patient.Voornaam" placeholder="Voornaam" />
                   </ion-col>
                   <ion-col>
-                    <ion-input v-if="patient.isEditing" v-model="patient.Achternaam" placeholder="Achternaam" />
-                    <span v-else>{{ patient.Achternaam }}</span>
+                    <span class="mobile-label">Achternaam:</span>
+                    <span v-if="!patient.isEditing">{{ patient.Achternaam }}</span>
+                    <ion-input v-else v-model="patient.Achternaam" placeholder="Achternaam" />
                   </ion-col>
                   <ion-col>
-                    <ion-input v-if="patient.isEditing" v-model="patient.Leeftijd" placeholder="Leeftijd" />
-                    <span v-else>{{ patient.Leeftijd }}</span>
+                    <span class="mobile-label">Leeftijd:</span>
+                    <span v-if="!patient.isEditing">{{ patient.Leeftijd }}</span>
+                    <ion-input v-else v-model="patient.Leeftijd" placeholder="Leeftijd" />
                   </ion-col>
                   <ion-col>
-                    <ion-select v-if="patient.isEditing" v-model="patient.Geslacht">
+                    <span class="mobile-label">Geslacht:</span>
+                    <span v-if="!patient.isEditing">{{ patient.Geslacht }}</span>
+                    <ion-select v-else v-model="patient.Geslacht">
                       <ion-select-option value="Man">Man</ion-select-option>
                       <ion-select-option value="Vrouw">Vrouw</ion-select-option>
                     </ion-select>
-                    <span v-else>{{ patient.Geslacht }}</span>
                   </ion-col>
                   <ion-col>
-                    <ion-input v-if="patient.isEditing" v-model="patient.OpnameDatum" placeholder="OpnameDatum" />
-                    <span v-else>{{ patient.OpnameDatum }}</span>
+                    <span class="mobile-label">OpnameDatum:</span>
+                    <span v-if="!patient.isEditing">{{ patient.OpnameDatum }}</span>
+                    <ion-input v-else v-model="patient.OpnameDatum" placeholder="OpnameDatum" />
                   </ion-col>
                   <ion-col>
-                    <ion-input v-if="patient.isEditing" v-model="patient.OntslagDatum" placeholder="OntslagDatum" />
-                    <span v-else>{{ patient.OntslagDatum }}</span>
+                    <span class="mobile-label">OntslagDatum:</span>
+                    <span v-if="!patient.isEditing">{{ patient.OntslagDatum }}</span>
+                    <ion-input v-else v-model="patient.OntslagDatum" placeholder="OntslagDatum" />
                   </ion-col>
                   <ion-col>
-                    <ion-input v-if="patient.isEditing" v-model="patient.BlokNaam" placeholder="Bloknaam" />
-                    <span v-else>{{ patient.BlokNaam }}</span>
+                    <span class="mobile-label">Bloknaam:</span>
+                    <span v-if="!patient.isEditing">{{ patient.BlokNaam }}</span>
+                    <ion-input v-else v-model="patient.BlokNaam" placeholder="Bloknaam" />
                   </ion-col>
                   <ion-col>
-                    <ion-input v-if="patient.isEditing" v-model="patient.Verdieping" placeholder="Verdieping" />
-                    <span v-else>{{ patient.Verdieping }}</span>
+                    <span class="mobile-label">Verdieping:</span>
+                    <span v-if="!patient.isEditing">{{ patient.Verdieping }}</span>
+                    <ion-input v-else v-model="patient.Verdieping" placeholder="Verdieping" />
                   </ion-col>
                   <ion-col>
-                    <ion-input v-if="patient.isEditing" v-model="patient.KamerNummer" placeholder="Kamer Nummer" />
-                    <span v-else>{{ patient.KamerNummer }}</span>
+                    <span class="mobile-label">Kamer Nummer:</span>
+                    <span v-if="!patient.isEditing">{{ patient.KamerNummer }}</span>
+                    <ion-input v-else v-model="patient.KamerNummer" placeholder="Kamer Nummer" />
                   </ion-col>
                   <ion-col>
-                    <ion-button v-if="patient.isEditing" color="success"
-                      @click="savePatient(patient)">Opslaan</ion-button>
-                    <ion-button v-if="patient.isEditing" color="medium"
-                      @click="cancelEdit(patient)">Annuleren</ion-button>
-                    <ion-button v-else color="primary" @click="editPatient(patient)">Bewerken</ion-button>
-                    <ion-button color="danger" @click="deletePatient(patient.PatiëntID)">Verwijder</ion-button>
+                    <div class="actions-row">
+                      <ion-button v-if="patient.isEditing" color="success"
+                        @click="savePatient(patient)">Opslaan</ion-button>
+                      <ion-button v-if="patient.isEditing" color="medium"
+                        @click="cancelEdit(patient)">Annuleren</ion-button>
+                      <ion-button v-else color="primary" @click="editPatient(patient)">Bewerken</ion-button>
+                      <ion-button color="danger" @click="deletePatient(patient.PatiëntID)">Verwijder</ion-button>
+                    </div>
                   </ion-col>
                 </ion-row>
               </ion-grid>
@@ -92,8 +103,8 @@
               <ion-card-title>Verpleegsters</ion-card-title>
             </ion-card-header>
             <ion-card-content>
-              <ion-grid>
-                <ion-row>
+              <ion-grid class="verpleegster-grid">
+                <ion-row class="table-header">
                   <ion-col><strong>Voornaam</strong></ion-col>
                   <ion-col><strong>Achternaam</strong></ion-col>
                   <ion-col><strong>Specialiteit</strong></ion-col>
@@ -103,40 +114,41 @@
                 </ion-row>
                 <ion-row v-for="verpleegster in verpleegsters" :key="verpleegster.VerpleegsterID">
                   <ion-col>
-                    <ion-input v-if="verpleegster.isEditing" v-model="verpleegster.Voornaam" placeholder="Voornaam" />
-                    <span v-else>{{ verpleegster.Voornaam }}</span>
+                    <span class="mobile-label">Voornaam:</span>
+                    <span v-if="!verpleegster.isEditing">{{ verpleegster.Voornaam }}</span>
+                    <ion-input v-else v-model="verpleegster.Voornaam" placeholder="Voornaam" />
                   </ion-col>
                   <ion-col>
-                    <ion-input v-if="verpleegster.isEditing" v-model="verpleegster.Achternaam"
-                      placeholder="Achternaam" />
-                    <span v-else>{{ verpleegster.Achternaam }}</span>
+                    <span class="mobile-label">Achternaam:</span>
+                    <span v-if="!verpleegster.isEditing">{{ verpleegster.Achternaam }}</span>
+                    <ion-input v-else v-model="verpleegster.Achternaam" placeholder="Achternaam" />
                   </ion-col>
                   <ion-col>
-                    <ion-input v-if="verpleegster.isEditing" v-model="verpleegster.Specialiteit"
-                      placeholder="Specialiteit" />
-                    <span v-else>{{ verpleegster.Specialiteit }}</span>
+                    <span class="mobile-label">Specialiteit:</span>
+                    <span v-if="!verpleegster.isEditing">{{ verpleegster.Specialiteit }}</span>
+                    <ion-input v-else v-model="verpleegster.Specialiteit" placeholder="Specialiteit" />
                   </ion-col>
                   <ion-col>
-                    <ion-input v-if="verpleegster.isEditing" v-model="verpleegster.Email" placeholder="Email" />
-                    <span v-else>{{ verpleegster.Email }}</span>
+                    <span class="mobile-label">Email:</span>
+                    <span v-if="!verpleegster.isEditing">{{ verpleegster.Email }}</span>
+                    <ion-input v-else v-model="verpleegster.Email" placeholder="Email" />
                   </ion-col>
                   <ion-col>
-                    <ion-input v-if="verpleegster.isEditing" v-model="verpleegster.Telefoonnummer"
-                      placeholder="Telefoonnummer" />
-                    <span v-else>{{ verpleegster.Telefoonnummer }}</span>
+                    <span class="mobile-label">Telefoon:</span>
+                    <span v-if="!verpleegster.isEditing">{{ verpleegster.Telefoonnummer }}</span>
+                    <ion-input v-else v-model="verpleegster.Telefoonnummer" placeholder="Telefoonnummer" />
                   </ion-col>
                   <ion-col>
-                    <ion-button v-if="verpleegster.isEditing" color="success"
-                      @click="saveVerpleegster(verpleegster)">Opslaan</ion-button>
-                    <ion-button v-if="verpleegster.isEditing" color="medium"
-                      @click="cancelEditVerpleegster(verpleegster)">Annuleren</ion-button>
-                    <ion-button v-else color="primary" @click="editVerpleegster(verpleegster)">Bewerken</ion-button>
-                    <ion-button color="danger"
-                      @click="deleteVerpleegster(verpleegster.VerpleegsterID)">Verwijder</ion-button>
+                    <div class="actions-row">
+                      <ion-button v-if="verpleegster.isEditing" color="success"
+                        @click="saveVerpleegster(verpleegster)">Opslaan</ion-button>
+                      <ion-button v-if="verpleegster.isEditing" color="medium"
+                        @click="cancelEditVerpleegster(verpleegster)">Annuleren</ion-button>
+                      <ion-button v-else color="primary" @click="editVerpleegster(verpleegster)">Bewerken</ion-button>
+                      <ion-button color="danger" @click="deleteVerpleegster(verpleegster)">Verwijder</ion-button>
+                    </div>
                   </ion-col>
                 </ion-row>
-
-
               </ion-grid>
             </ion-card-content>
           </ion-card>
@@ -183,6 +195,7 @@ const fetchVerpleegsters = () => {
     .then(response => {
       if (response.data && response.data.data) {
         verpleegsters.value = response.data.data;
+        console.log(response.data);
       } else {
         console.error('Error: Unexpected response format', response);
       }
@@ -219,11 +232,17 @@ const deletePatient = (patientID) => {
 };
 
 // Delete verpleegster
-const deleteVerpleegster = (verpleegsterID) => {
-  axios.post('https://gauravghimire.be/API_modernCare/api/VerpleegsterDelete.php', { VerpleegsterID: verpleegsterID })
+const deleteVerpleegster = (verpleegster) => {
+  if (verpleegster.IsAdmin) {
+    console.error('Cannot delete an admin verpleegster.');
+    alert('Cannot delete an admin verpleegster.');
+    return;
+  }
+
+  axios.post('https://gauravghimire.be/API_modernCare/api/VerpleegsterDelete.php', { VerpleegsterID: verpleegster.VerpleegsterID })
     .then(response => {
       if (response.data.status === 'ok') {
-        fetchVerpleegsters(); // Refresh the list after deletion
+        fetchVerpleegsters();
       } else {
         console.error('Error deleting verpleegster:', response.data);
       }
@@ -232,6 +251,7 @@ const deleteVerpleegster = (verpleegsterID) => {
       console.error('Error deleting verpleegster:', error);
     });
 };
+
 
 // Save patient
 const savePatient = (patient) => {
@@ -301,14 +321,10 @@ onMounted(() => {
   fetchVerpleegsters();
 });
 
-// Watch for route changes and refetch data
-watch(
-  () => route.path,
-  () => {
-    fetchPatients();
-    fetchVerpleegsters();
-  }
-);
+watch(() => route.path, () => {
+  fetchPatients();
+  fetchVerpleegsters();
+});
 
 // Logout function
 const logout = () => {
@@ -319,3 +335,78 @@ const logout = () => {
   }, 100);
 };
 </script>
+
+<style scoped>
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.table-header {
+  display: none;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.actions-row {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 10px;
+}
+
+/* Styles voor grotere scherms */
+@media (min-width: 769px) {
+  .table-header {
+    display: flex;
+  }
+
+  .patient-grid .info-row,
+  .verpleegster-grid .info-row {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .mobile-label {
+    display: none;
+  }
+}
+
+/* Styles voor kleinere scherms */
+@media (max-width: 768px) {
+  .table-header {
+    display: none;
+  }
+
+  ion-grid {
+    display: block;
+  }
+
+  ion-row {
+    display: block;
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+
+  ion-col {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+  }
+
+  .mobile-label {
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+
+  .actions-row {
+    flex-direction: column;
+  }
+}
+</style>
