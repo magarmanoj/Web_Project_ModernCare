@@ -132,7 +132,7 @@
                       @click="cancelEditVerpleegster(verpleegster)">Annuleren</ion-button>
                     <ion-button v-else color="primary" @click="editVerpleegster(verpleegster)">Bewerken</ion-button>
                     <ion-button color="danger"
-                      @click="deleteVerpleegster(verpleegster.VerpleegsterID)">Verwijder</ion-button>
+                      @click="deleteVerpleegster(verpleegster)">Verwijder</ion-button>
                   </ion-col>
                 </ion-row>
 
@@ -222,11 +222,17 @@ const deletePatient = (patientID) => {
 };
 
 // Delete verpleegster
-const deleteVerpleegster = (verpleegsterID) => {
-  axios.post('https://gauravghimire.be/API_modernCare/api/VerpleegsterDelete.php', { VerpleegsterID: verpleegsterID })
+const deleteVerpleegster = (verpleegster) => {
+  if (verpleegster.IsAdmin) {
+    console.error('Cannot delete an admin verpleegster.');
+    alert('Cannot delete an admin verpleegster.');
+    return;
+  }
+
+  axios.post('https://gauravghimire.be/API_modernCare/api/VerpleegsterDelete.php', { VerpleegsterID: verpleegster.VerpleegsterID })
     .then(response => {
       if (response.data.status === 'ok') {
-        fetchVerpleegsters(); // Refresh the list after deletion
+        fetchVerpleegsters(); 
       } else {
         console.error('Error deleting verpleegster:', response.data);
       }
@@ -235,6 +241,7 @@ const deleteVerpleegster = (verpleegsterID) => {
       console.error('Error deleting verpleegster:', error);
     });
 };
+
 
 // Save patient
 const savePatient = (patient) => {
