@@ -145,8 +145,7 @@
                       <ion-button v-if="verpleegster.isEditing" color="medium"
                         @click="cancelEditVerpleegster(verpleegster)">Annuleren</ion-button>
                       <ion-button v-else color="primary" @click="editVerpleegster(verpleegster)">Bewerken</ion-button>
-                      <ion-button color="danger"
-                        @click="deleteVerpleegster(verpleegster)">Verwijder</ion-button>
+                      <ion-button color="danger" @click="deleteVerpleegster(verpleegster)">Verwijder</ion-button>
                     </div>
                   </ion-col>
                 </ion-row>
@@ -161,7 +160,7 @@
 
 <script setup>
 import { ref, onMounted, watch } from 'vue';
-import { useRouter, useRoute} from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 import axios from 'axios';
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonGrid, IonRow, IonCol, IonInput, IonButton, IonIcon, IonCardContent, IonCard, IonCardHeader, IonCardTitle, IonSelect, IonSelectOption } from '@ionic/vue';
 import { logOutOutline } from 'ionicons/icons';
@@ -245,7 +244,7 @@ const deleteVerpleegster = (verpleegster) => {
   axios.post('https://gauravghimire.be/API_modernCare/api/VerpleegsterDelete.php', { VerpleegsterID: verpleegster.VerpleegsterID })
     .then(response => {
       if (response.data.status === 'ok') {
-        fetchVerpleegsters(); 
+        fetchVerpleegsters();
       } else {
         console.error('Error deleting verpleegster:', response.data);
       }
@@ -345,7 +344,6 @@ const logout = () => {
 </script>
 
 <style scoped>
-
 .container {
   display: flex;
   flex-direction: column;
@@ -368,7 +366,7 @@ const logout = () => {
   margin-top: 10px;
 }
 
-/* Styles for larger screens */
+/* Styles voor grotere scherms */
 @media (min-width: 769px) {
   .table-header {
     display: flex;
@@ -385,7 +383,7 @@ const logout = () => {
   }
 }
 
-
+/* Styles voor kleinere scherms */
 @media (max-width: 768px) {
   .table-header {
     display: none;
@@ -416,11 +414,6 @@ const logout = () => {
 
   .actions-row {
     flex-direction: column;
-  }
-
-  ion-button {
-    width: 100%;
-    margin-bottom: 10px;
   }
 }
 </style>
