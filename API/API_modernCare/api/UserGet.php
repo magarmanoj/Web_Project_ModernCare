@@ -13,9 +13,14 @@ $username = trim($_POST['username'] ?? null);
 $wachtwoord = trim($_POST['wachtwoord'] ?? null);
 
 // Debugging output
-echo json_encode(['data' => $username, 'entered_password' => $wachtwoord, 'stored_password' => $user['wachtwoord'], 'message' => 'Received username', 'status' => 'ok']);
 
-$stmt = $conn->prepare("SELECT * FROM Users WHERE username = ?");
+
+$stmt = $conn->prepare( "
+    SELECT u.VerpleegsterID, u.username, u.wachtwoord, v.IsAdmin
+    FROM Users u
+    JOIN Verpleegsters v ON u.VerpleegsterID = v.VerpleegsterID
+    WHERE u.username = ?
+");
 if (!$stmt) {
     echo json_encode(['error' => 'Database prepare failed.', 'status' => 'fail']);
     exit;
@@ -38,15 +43,22 @@ if ($result->num_rows == 0) {
 } else {
     $user = $result->fetch_assoc();
 
-    // Debugging output
-    echo json_encode(['data' => $username, 'entered_password' => $wachtwoord, 'stored_password' => $user['wachtwoord'], 'message' => 'Received username', 'status' => 'ok']);
+
 
     if ($wachtwoord === $user['wachtwoord']) {
-        echo json_encode(['data' => 'ok', 'message' => 'Login successful', 'status' => 'ok']);
+    echo json_encode([
+        'data' => 'ok', 
+        'message' => 'Login successful', 
+        'status' => 'ok',
+        'user' => [ 
+            'VerpleegsterID' => $user['VerpleegsterID'],
+            'username' => $user['username'],
+            'IsAdmin' => $user['IsAdmin']
+        ]
+    ]);
     } else {
-        echo json_encode(['error' => 'Invalid password.', 'status' => 'fail']);
+    echo json_encode(['error' => 'Invalid password.', 'status' => 'fail']);
     }
 }
-
 $stmt->close();
 ?>

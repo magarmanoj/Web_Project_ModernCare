@@ -18,7 +18,7 @@ if (!$result) {
     deliver_JSONresponse($response);
 }
 
-$response['data'] = getJsonObjFromResult($result); 
+$response['data'] = getJsonObjFromResult($result); // -> fetch_all(MYSQLI_ASSOC)
 $result->free();
 $conn->close();
 deliver_JSONresponse($response);

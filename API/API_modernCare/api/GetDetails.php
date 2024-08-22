@@ -1,55 +1,59 @@
 <?php
 header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: POST'); // gebruik hier het meest toepasselijke HTTP verb. GET zou hier beter zijn ...
+header('Access-Control-Allow-Methods: POST');
 header('Access-Control-Max-Age: 1000');
 header('Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With');
 
-define ('INDEX', true);
-// --- Step 0 : connect to db
+define('INDEX', true);
 require 'inc/dbcon.php';
 require 'inc/base.php';
 
-// PRODUCTENget
-// --- "Get" de lijst met medewerkers per project
+// SQL query to get data only from OngevalType
+$sql = "SELECT 
+    k.KamerID, 
+    k.KamerNummer, 
+    o.Prioriteit,
+    o.Time,
+    o.ID as OngevalID,
+    p.Voornaam AS PatientVoornaam, 
+    p.Achternaam AS PatientAchternaam, 
+    p.Leeftijd, 
+    p.Geslacht, 
+    p.OpnameDatum, 
+    p.OntslagDatum,
+    IFNULL(v.Status, 0) AS Status,
+    v.Beschrijving AS Beschrijving,
+    v.ID as VerzoekID,
+    u.username AS CurrentUser,
+    vg.VerpleegsterID,
+    vg.Voornaam AS VerpleegsterVoornaam,
+    vg.Achternaam AS VerpleegsterAchternaam,
+    vg.Specialiteit
+FROM OngevalType o 
+LEFT JOIN Patiënten p ON o.PatiëntID = p.PatiëntID  
+LEFT JOIN Kamers k ON p.KamerID = k.KamerID
+LEFT JOIN VerzoekNotities v ON o.ID = v.OngevalID
+LEFT JOIN Users u ON u.VerpleegsterID = v.VerpleegsterID
+LEFT JOIN Verpleegsters vg ON v.VerpleegsterID = vg.VerpleegsterID
+ORDER BY 
+    CASE o.Prioriteit 
+        WHEN 'hoog' THEN 1 
+        WHEN 'middel' THEN 2 
+        WHEN 'laag' THEN 3 
+        ELSE 4 
+    END";
 
-$sql="SELECT  k.KamerID, k.KamerNummer, o.Prioriteit, vn.DatumTijdNotitie,v.Voornaam AS VerpleegsterVoornaam, v.Achternaam AS VerpleegsterAchternaam,
-v.Specialiteit, nv.Status AS NoodVerzoekStatus  
-FROM
-        OngevalType o
-    LEFT JOIN
-        Kamers k ON k.KamerID = o.ID
-    LEFT JOIN
-        VerzoekNotities vn ON k.KamerID = vn.VerzoekID
-    LEFT JOIN
-        NoodVerzoek nv ON k.KamerID = nv.OngevalTypeID
-    LEFT JOIN
-        Verpleegsters v ON vn.VerpleegsterID = v.VerpleegsterID
-        CASE o.Prioriteit
-            WHEN 'hoog' THEN 1
-            WHEN 'middel' THEN 2
-            WHEN 'laag' THEN 3
-            ELSE 4
-        END";
-
-// geen prepared statement nodig, aangezien we geen parameters
-// van de gebruiker verwerken.
-
-$result = $conn -> query($sql);
+$result = $conn->query($sql);
 
 if (!$result) {
     $response['code'] = 7;
-    $response['status'] = $api_response_code[$response['code']]['HTTP Response'];
+    $response['status'] = 'fail';
     $response['data'] = $conn->error;
-    deliver_response($response);
+    deliver_JSONresponse($response);
 }
 
-// Vorm de resultset om naar een structuur die we makkelijk kunnen 
-// doorgeven en stop deze in $response['data']
 $response['data'] = getJsonObjFromResult($result); // -> fetch_all(MYSQLI_ASSOC)
-// maak geheugen vrij op de server door de resultset te verwijderen
 $result->free();
-// sluit de connectie met de databank
 $conn->close();
-// Return Response to browser
 deliver_JSONresponse($response);
 ?>

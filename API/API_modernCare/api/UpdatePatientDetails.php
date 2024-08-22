@@ -3,6 +3,7 @@ header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: POST'); 
 header('Access-Control-Max-Age: 1000');
 header('Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With');
+header('Content-Type: application/json; charset=UTF-8');
 
 define ('INDEX', true);
 require 'inc/dbcon.php';
@@ -12,13 +13,13 @@ require 'inc/base.php';
 $input = json_decode(file_get_contents('php://input'), true);
 
 // Check if all required data is present
-if (!isset($input['PatiëntID']) || !isset($input['Voornaam']) || !isset($input['Achternaam']) || 
+if (!isset($input['PatiëntID']) || !isset($input['Voornaam']) || !isset($input['Achternaam']) || !isset($input['Leeftijd']) ||
     !isset($input['Geslacht']) || !isset($input['BlokNaam']) || 
     !isset($input['KamerNummer']) || !isset($input['Verdieping'])) {
     $response['code'] = 6; // Custom error code for missing parameters
     $response['status'] = $api_response_code[$response['code']]['HTTP Response'];
     $response['data'] = 'Missing required parameters';
-    deliver_JSONresponse($response);
+    echo json_encode($response);
     exit;
 }
 
@@ -26,6 +27,7 @@ if (!isset($input['PatiëntID']) || !isset($input['Voornaam']) || !isset($input[
 $patiëntID = $input['PatiëntID'];
 $voornaam = $input['Voornaam'];
 $achternaam = $input['Achternaam'];
+$leeftijd = $input['Leeftijd'];
 $geslacht = $input['Geslacht'];
 $blokNaam = $input['BlokNaam'];
 $kamerNummer = $input['KamerNummer'];
@@ -37,10 +39,10 @@ $conn->begin_transaction();
 try {
     // Update patient details
     $sql = "UPDATE Patiënten 
-            SET Voornaam = ?, Achternaam = ?, Geslacht = ? 
+            SET Voornaam = ?, Achternaam = ?, Leeftijd = ?,  Geslacht = ? 
             WHERE PatiëntID = ?";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("sssi", $voornaam, $achternaam, $geslacht, $patiëntID);
+    $stmt->bind_param("ssisi", $voornaam, $achternaam, $leeftijd, $geslacht, $patiëntID);
     if (!$stmt->execute()) {
         throw new Exception($stmt->error);
     }
@@ -76,14 +78,14 @@ try {
     $response['code'] = 1; // Success code
     $response['status'] = $api_response_code[$response['code']]['HTTP Response'];
     $response['data'] = 'Patient details updated successfully';
-    deliver_JSONresponse($response);
+    echo json_encode($response);
 } catch (Exception $e) {
     // Rollback transaction on error
     $conn->rollback();
     $response['code'] = 7; // General error code
     $response['status'] = $api_response_code[$response['code']]['HTTP Response'];
     $response['data'] = $e->getMessage();
-    deliver_JSONresponse($response);
+    echo json_encode($response);
 }
 
 // Close the connection
